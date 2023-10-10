@@ -1,7 +1,6 @@
 import Link from '../db/models/model';
 import shrinkLink from '../api/shrink-api';
 import redis from '../db/models/redisDb';
-import { promisify } from 'util';
 
 export class linkService {
   async shrinkUrl(data: any) {

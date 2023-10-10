@@ -60,7 +60,7 @@ const databaseConfig: Options = {
   password: process.env[`${env.toUpperCase()}_PASSWORD`] || '',
   host: process.env[`${env.toUpperCase()}_HOST`] || '',
   port: parseInt(process.env[`${env.toUpperCase()}_PORT`] || '', 10),
-  dialect: (process.env.TEST_DIALECT || 'mysql') as Dialect
+  dialect: (process.env[`${env.toUpperCase()}_DIALECT`] || '') as Dialect
 };
 
 const db = new SequelizeDB(databaseConfig);
