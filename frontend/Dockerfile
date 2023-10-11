@@ -1,22 +1,17 @@
-# Use an official Node.js runtime as a parent image
 FROM node:18.16.0
 
-# Set the working directory to /app
-WORKDIR /app
+WORKDIR /frontend
 
-# Copy the package.json and package-lock.json files to the container
-COPY package*.json ./
+ADD package.json /tmp
 
-# Copy the rest of the application code to the container
-COPY . /app
+RUN cd /tmp && npm install
 
-# Install dependencies
-RUN npm install
+RUN mv /tmp/node_modules /frontend
 
 ENV NODE_ENV=development
 
-# Expose port 3000 for the application
+COPY . /frontend
+
 EXPOSE 3000
 
-# Start the application
 CMD ["npm", "run", "start"]

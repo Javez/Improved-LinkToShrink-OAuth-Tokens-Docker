@@ -1,7 +1,5 @@
-import Link from '../../src/db/models/model';
-import db from '../../src/db/models/sequelizeDb';
-
-
+import Link from '../../src/db/models/Link';
+import db from '../../src/db/sequelizeDb';
 
 describe('Database Connection and Operations', () => {
   afterAll(async () => {

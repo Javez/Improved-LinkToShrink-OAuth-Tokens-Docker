@@ -1,25 +1,28 @@
-version: "2.21.0-desktop.1"
+version: "2.22.0-desktop.2"
 services:
   backend:
+    container_name: "backend-container"
     build:
       context: ./backend
       dockerfile: Dockerfile
     env_file:
       - ./backend/.env
     expose:
-      - ${APP_PORT}
+      - 8080
     volumes:
       - "linktoshrink-volume:/data/backend"
     networks:
       - linktoshrink-network
     depends_on:
       - redis
+    restart: always
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - 8080:8080
   redis:
     image: "redis"
+    container_name: "redis-container"
     expose:
-      - ${REDIS_PORT}
+      - 6379
     volumes:
       - "linktoshrink-volume:/data/redis"
     networks:
@@ -27,19 +30,25 @@ services:
     env_file:
       - ./backend/.env
     ports:
-      - ${REDIS_PORT}:${REDIS_PORT}
+      - 6379:6379
   frontend:
+    container_name: "frontend-container"
     build:
       context: ./frontend
       dockerfile: Dockerfile
     env_file:
       - ./frontend/.env
     expose:
-      - ${APP_PORT}
+      - 3000
+    volumes:
+      - "linktoshrink-volume:/data/frontend"
+    networks:
+      - linktoshrink-network
     depends_on:
       - backend
+    restart: always
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - 3000:3000
 volumes:
   linktoshrink-volume:
 networks:

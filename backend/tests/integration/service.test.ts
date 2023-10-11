@@ -1,5 +1,5 @@
 import linkService from '../../src/services/service'; // Adjust the import path as needed
-import Link from '../../src/db/models/model';
+import Link from '../../src/db/models/Link';
 
 // Mock Link.create and Link.findOne methods to avoid database interactions
 jest.mock('../../src/db/models/model', () => ({

@@ -4,7 +4,7 @@
   "description": "application which converts long lenght links to short appearence",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "nodemon src/server.ts",
+    "start": "nodemon src/server.ts",
     "build": "rm -rf build/ && prettier --write source/ && tsc",
     "test": "jest --coverage ./tests"
   },
@@ -23,6 +23,7 @@
     "axios": "^1.5.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "google-auth-library": "^9.1.0",
     "ioredis": "^5.3.2",
     "mysql2": "^3.6.0",
     "nodemon": "^3.0.1",

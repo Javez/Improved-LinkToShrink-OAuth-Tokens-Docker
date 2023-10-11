@@ -1,15 +1,17 @@
 FROM node:18.16.0
 
-WORKDIR /app
+WORKDIR /backend
 
-COPY package*.json ./
+ADD package.json /tmp
 
-COPY . /app
+RUN cd /tmp && npm install
 
-RUN npm install
+RUN mv /tmp/node_modules /backend
 
 ENV NODE_ENV=development
 
+COPY . /backend
+
 EXPOSE 8080
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
