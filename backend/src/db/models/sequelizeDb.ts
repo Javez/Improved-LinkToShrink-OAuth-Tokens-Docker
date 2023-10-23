@@ -1,5 +1,6 @@
 import { Sequelize, Options, Dialect } from 'sequelize';
-import Link from './model';
+import Link from './Link';
+import User from './User';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -41,12 +42,13 @@ class SequelizeDB {
     try {
       await this.sequelize.sync({ force: true });
       console.log('The table for the Links model was just (re)created!');
-      console.log(
-        this.sequelize.models.Link === Link
-          ? 'models the same'
-          : 'models different'
-      );
-      return true;
+      if(this.sequelize.models.Link === Link && this.sequelize.models.User === User){
+        console.log('User and Link models the same as models in db');
+        return true;
+      } else {
+        console.log('Error User and Link models are not not the same as models in db');
+        return false;
+      }
     } catch (error) {
       console.error('Unable to recreate model:', error);
       return false;

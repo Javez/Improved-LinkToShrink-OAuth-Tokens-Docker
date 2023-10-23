@@ -1,13 +1,9 @@
 import { DataTypes, Model } from 'sequelize';
 import db from './sequelizeDb';
+import Link from './Link';
+import User from './User';
 
 const sequelize = db.getInstance;
-
-export default class Link extends Model {
-  id!: number;
-  url!: string;
-  shortUrl!: string;
-}
 
 Link.init(
   {
@@ -27,6 +23,35 @@ Link.init(
   },
   {
     modelName: 'Link',
+    freezeTableName: true,
+    createdAt: false,
+    updatedAt: false,
+    sequelize: sequelize
+  }
+);
+
+User.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  },
+  {
+    modelName: 'User',
     freezeTableName: true,
     createdAt: false,
     updatedAt: false,
