@@ -7,6 +7,37 @@ dotenv.config();
 const _host = process.env.FRONTEND_HOST;
 const _port = process.env.FRONTEND_PORT;
 class appController {
+  register = async (req: Request, res: Response) => {
+    try {
+      const data = {
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
+      };
+      await linkServices.addUser(data);
+      res.redirect(_host + ':' + _port + '/login');
+    } catch {
+      console.log(error);
+    }
+  }
+  
+  login = async (req: Request, res: Response) => {
+    try {
+      const data = {
+        email: req.body.email,
+        password: req.body.password
+      };
+      const token = await linkServices.checkUser(data);
+      if (token) { 
+        res.json({ success: true, token });
+      } else {
+        res.status(401).json({ success: false, message: 'Invalid credentials' });
+      }
+    } catch {
+      console.log(error);
+    }
+  }
+ 
   shrinkUrl = async (req: Request, res: Response) => {
     try {
       const data = {

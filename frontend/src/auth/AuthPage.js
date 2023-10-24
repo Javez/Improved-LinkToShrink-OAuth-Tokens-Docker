@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import GoogleLogin from "@react-oauth/google";
 import { useHistory } from "react-router-dom";
 import dotenv from "dotenv";
 import NavBar from "../components/Navbar";
+import { useGoogleAuth } from "@react-oauth/google";
 
 dotenv.config();
 const _host = process.env.BACKEND_HOST;
@@ -13,6 +13,7 @@ const AuthPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
+  const { signIn } = useGoogleAuth();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -40,30 +41,13 @@ const AuthPage = () => {
       });
   };
 
-  const handleGoogleLogin = (response) => {
-    // Send Google login request to backend
-
-    fetch(`${_host}:${_port}/api/google-auth`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ tokenId: response.tokenId }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          // Set authentication token in sessionStorage
-          sessionStorage.setItem("token", data.token);
-          // Redirect to main page
-          history.push("/");
-        } else {
-          setError(data.message);
-        }
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
+  const handleGoogleLogin = async (response) => {
+     try {
+      await signIn();
+      // Handle successful sign-in
+    } catch (error) {
+      // Handle sign-in error
+    }
   };
 
   return (
@@ -94,16 +78,9 @@ const AuthPage = () => {
         <button type="submit">Sign In</button>
       </form>
       <br />
-      <GoogleLogin
-        clientId={process.env.GOOGLE_CLIENT_ID}
-        buttonText="Login with Google"
-        onSuccess={handleGoogleLogin}
-        onFailure={(error) => setError(error.message)}
-        cookiePolicy={"single_host_origin"}
-      />
+      <button onClick={handleGoogleLogin}>Sign in with Google</button>
       {error && <p>{error}</p>}
     </div>
-    
   );
 };
 

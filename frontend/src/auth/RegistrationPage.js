@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import NavBar from "../components/Navbar";
 import dotenv from "dotenv";
+import { useGoogleAuth } from "@react-oauth/google";
 
 dotenv.config();
 
@@ -10,6 +11,7 @@ const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { signIn } = useGoogleAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,9 +21,18 @@ const RegisterPage = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
-    });
+    })
     const data = await response.json();
     console.log(data);
+  };
+
+  const handleGoogleAuth = async () => {
+    try {
+      await signIn();
+      // Handle successful sign-in
+    } catch (error) {
+      // Handle sign-in error
+    }
   };
 
   return (
@@ -55,6 +66,8 @@ const RegisterPage = () => {
         </label>
         <button type="submit">Sign Up</button>
       </form>
+      <br />
+      <button onClick={handleGoogleAuth}>Register with Google</button>
     </div>
   );
 };

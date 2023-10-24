@@ -3,6 +3,7 @@ import User from '../db/models/User';
 import shrinkLink from '../api/shrink-api';
 import redis from '../db/redisDb';
 import dotenv from 'dotenv';
+import { createToken } from '../middleware/auth/auth'; 
 import { OAuth2Client } from 'google-auth-library';
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -103,15 +104,14 @@ export class linkService {
     try {
       const user = await User.findOne({
         where: {
-          username: data.username,
           email: data.email,
           password: data.password
         }
       });
-      if (!user) {
-        return false;
-      }
-      return true;
+      if (user) {
+        const token = createToken(data.email, data.password);
+        return token;
+      } else return false;
     } catch (error) {
       console.log(error);
     }

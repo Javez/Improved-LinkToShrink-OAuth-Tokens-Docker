@@ -37,6 +37,7 @@
     "@babel/preset-env": "^7.22.14",
     "@babel/preset-typescript": "^7.22.11",
     "@types/jest": "^29.5.5",
+    "@types/jsonwebtoken": "^9.0.4",
     "@types/sequelize": "^4.28.15",
     "@types/supertest": "^2.0.12",
     "babel-jest": "^29.6.4",

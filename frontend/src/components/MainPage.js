@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import dotenv from "dotenv";
-
+import { NavBar } from "../components/Navbar";
 dotenv.config();
 const _host = process.env.BACKEND_HOST;
 const _port = process.env.BACKEND_PORT;
@@ -39,6 +39,7 @@ const MainPage = () => {
 
   return (
     <div>
+      <NavBar />
       <h1>Main Page</h1>
       <label>
         Insert a link to shorten:
