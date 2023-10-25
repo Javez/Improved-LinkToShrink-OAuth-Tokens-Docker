@@ -1,8 +1,9 @@
 import express from 'express';
 import router from './routes/app-routes';
-import db from './db/sequelizeDb';
+import { SequelizeDB } from './db/sequelizeDb';
 import dotenv from 'dotenv';
 
+const db = new SequelizeDB();
 dotenv.config();
 
 var path = require('path');
@@ -20,7 +21,7 @@ db.openConnection().then(() => {
   app.listen(PORT, () => {
     console.log(`The server is running on port ${PORT}`);
   });
-  db.createTable().then(() => {
+  db.createTables().then(() => {
     console.log('Model for db created');
   });
 });

@@ -1,17 +1,25 @@
-import { Sequelize, Options, Dialect } from 'sequelize';
-import { Link, User } from "./initModels";
+import { Dialect, Sequelize } from 'sequelize';
+import { User, GoogleUser, Link } from './models/model';
 import dotenv from 'dotenv';
 
 dotenv.config();
 const env = process.env.NODE_ENV || 'development';
 
-class SequelizeDB {
-  private sequelize: Sequelize;
+export class SequelizeDB {
+  public sequelize: Sequelize;
 
-  constructor(config: Options) {
-    this.sequelize = new Sequelize(config);
+  constructor() {
+    this.sequelize = new Sequelize({
+      database: process.env[`${env.toUpperCase()}_DATABASE`] || '',
+      username: process.env[`${env.toUpperCase()}_USERNAME`] || '',
+      password: process.env[`${env.toUpperCase()}_PASSWORD`] || '',
+      host: process.env[`${env.toUpperCase()}_HOST`] || '',
+      port: parseInt(process.env[`${env.toUpperCase()}_PORT`] || '', 10),
+      dialect: (process.env[`${env.toUpperCase()}_DIALECT`] || '') as Dialect
+    });
   }
-  public get getInstance(): Sequelize {
+
+  public getInstance(): Sequelize {
     return this.sequelize;
   }
 
@@ -37,33 +45,19 @@ class SequelizeDB {
     }
   }
 
-  public async createTable() {
+  public async createTables() {
     try {
-      await this.sequelize.sync({ force: true });
-      console.log('The tables for the models was just (re)created!');
-      console.log(
-        this.sequelize.models.Link === Link &&
-          this.sequelize.models.User === User
-          ? 'User and Link models the same as models in db'
-          : 'Error User and Link models are not not the same as models in db'
-      );
+      await User.sync();
+      await GoogleUser.sync();
+      await Link.sync();
+      console.log('Tables have been created successfully.');
       return true;
     } catch (error) {
-      console.error('Unable to recreate model:', error);
+      console.error('Unable to create tables:', error);
       return false;
     }
   }
 }
+const sequelizeDB = new SequelizeDB();
 
-const databaseConfig: Options = {
-  database: process.env[`${env.toUpperCase()}_DATABASE`] || '',
-  username: process.env[`${env.toUpperCase()}_USERNAME`] || '',
-  password: process.env[`${env.toUpperCase()}_PASSWORD`] || '',
-  host: process.env[`${env.toUpperCase()}_HOST`] || '',
-  port: parseInt(process.env[`${env.toUpperCase()}_PORT`] || '', 10),
-  dialect: (process.env[`${env.toUpperCase()}_DIALECT`] || '') as Dialect
-};
-
-const db = new SequelizeDB(databaseConfig);
-
-export default db;
+export const sequelize = sequelizeDB.sequelize;

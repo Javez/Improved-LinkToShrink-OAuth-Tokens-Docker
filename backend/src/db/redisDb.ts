@@ -3,7 +3,7 @@ import Redis from 'ioredis';
 dotenv.config();
 
 const redis = new Redis({
-  host: "redis" || '',
+  host: process.env.REDIS_HOST || '',
   port: parseInt(process.env.REDIS_PORT || '4000')
 });
 redis.on('error', (error: any) => {

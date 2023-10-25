@@ -1,10 +1,9 @@
-import Link from '../db/models/Link';
-import User from '../db/models/User';
 import shrinkLink from '../api/shrink-api';
 import redis from '../db/redisDb';
 import dotenv from 'dotenv';
-import { createToken } from '../middleware/auth/auth'; 
+import { createToken } from '../middleware/auth/auth';
 import { OAuth2Client } from 'google-auth-library';
+import { Link, User, GoogleUser } from '../db/models/model';
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 dotenv.config();
@@ -92,8 +91,22 @@ export class linkService {
   }
 
   async addUser(data: any) {
+    let newUser;
     try {
-      const newUser = await User.create(data);
+      if (data.provider === 'google') {
+        const newData = {
+          username: data.username,
+          email: data.email
+        };
+        newUser = await GoogleUser.create(newData);
+      } else {
+        const newData = {
+          username: data.username,
+          email: data.email,
+          password: data.password
+        };
+        newUser = await User.create(data);
+      }
       return newUser;
     } catch (error) {
       console.log(error);
@@ -101,13 +114,23 @@ export class linkService {
   }
 
   async checkUser(data: any) {
+    let user;
     try {
-      const user = await User.findOne({
-        where: {
-          email: data.email,
-          password: data.password
-        }
-      });
+      if (data.provider === 'google') {
+        user = await GoogleUser.findOne({
+          where: {
+            username: data.username,
+            email: data.email
+          }
+        });
+      } else {
+        user = await User.findOne({
+          where: {
+            email: data.email,
+            password: data.password
+          }
+        });
+      }
       if (user) {
         const token = createToken(data.email, data.password);
         return token;
@@ -131,7 +154,7 @@ export class linkService {
         const user = {
           email: data.email,
           idToken: data.token
-        }
+        };
         return user;
       } else return false;
     } catch (error) {

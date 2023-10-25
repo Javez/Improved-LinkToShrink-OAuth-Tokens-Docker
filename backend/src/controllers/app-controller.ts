@@ -2,6 +2,7 @@ import linkServices from '../services/service';
 import { Request, Response } from 'express';
 import { error } from 'console';
 import dotenv from 'dotenv';
+import { type } from 'os';
 
 dotenv.config();
 const _host = process.env.FRONTEND_HOST;
@@ -9,13 +10,22 @@ const _port = process.env.FRONTEND_PORT;
 class appController {
   register = async (req: Request, res: Response) => {
     try {
-      const data = {
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-      };
-      await linkServices.addUser(data);
-      res.redirect(_host + ':' + _port + '/login');
+      let data;
+      const { provider, email, password, username } = req.body;
+
+      if (provider === 'google') {
+        data = { username, email, provider };
+      } else {
+        data = { email, password, provider: 'local' };
+      }
+      const result = await linkServices.addUser(data);
+      if(result) {
+        res.json({ success: true });
+      } else {
+        res
+          .status(401)
+          .json({ success: false, message: 'Invalid credentials' });
+      }
     } catch {
       console.log(error);
     }
@@ -23,17 +33,22 @@ class appController {
   
   login = async (req: Request, res: Response) => {
     try {
-      const data = {
-        email: req.body.email,
-        password: req.body.password
-      };
+      const { provider, email, password, username } = req.body;
+      let data;
+      
+      if(provider === 'google') {
+        data = { username, email, provider};
+      } else {
+        data = { email, password, provider: "local" };
+      }
       const token = await linkServices.checkUser(data);
+
       if (token) { 
         res.json({ success: true, token });
       } else {
         res.status(401).json({ success: false, message: 'Invalid credentials' });
       }
-    } catch {
+    } catch (error) {
       console.log(error);
     }
   }
@@ -128,27 +143,6 @@ class appController {
       const result = await linkServices.checkUser(data);
       if (result) {
         res.redirect(`${_host}:${_port}/`);
-        res.send(data);
-      } else {
-        res.redirect(
-          `${_host}:${_port}/auth`
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  checkUserWithGoogle = async (req: Request, res: Response) => {
-    try {
-      const data = {
-        token: req.body.token
-      };
-      const result = await linkServices.checkUserWithGoogle(data);
-      if (result) {
-        res.redirect(
-          `${_host}:${_port}/`
-        );
         res.send(data);
       } else {
         res.redirect(

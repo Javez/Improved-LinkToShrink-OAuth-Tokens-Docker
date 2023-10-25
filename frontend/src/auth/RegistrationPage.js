@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import NavBar from "../components/Navbar";
 import dotenv from "dotenv";
 import { useGoogleAuth } from "@react-oauth/google";
-
+import { useHistory } from "react-router-dom";
+import { isGoogleTokenValid } from "../middleware/googleTokenCheck";
 dotenv.config();
 
 const _host = process.env.BACKEND_HOST;
@@ -11,7 +12,9 @@ const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const { signIn } = useGoogleAuth();
+  const history = useHistory();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,20 +23,49 @@ const RegisterPage = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
-    })
+      body: JSON.stringify({ username, email, password }),
+    });
     const data = await response.json();
     console.log(data);
   };
 
-  const handleGoogleAuth = async () => {
+  const handleGoogleAuth = async (response) => {
     try {
-      await signIn();
-      // Handle successful sign-in
+      const { id_token } = await signIn();
+      const result = await isGoogleTokenValid(id_token);
+      if (!result) {
+        setError("Google token is not valid");
+      } else {
+        const decodedToken = JSON.parse(atob(id_token.split(".")[1]));
+        const email = decodedToken.email;
+        const name = decodedToken.name;
+        const picture = decodedToken.picture;
+        const response = await fetch(`${_host}:${_port}/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            name: name,
+            picture: picture,
+            provider: "google",
+          }),
+        });
+        const data = await response.json();
+        if (data.success) {
+          // Redirect to main page
+          history.push("/login");
+        } else {
+          setError(data.message);
+        }
+      }
     } catch (error) {
       // Handle sign-in error
     }
   };
+
+  
 
   return (
     <div>
@@ -68,6 +100,7 @@ const RegisterPage = () => {
       </form>
       <br />
       <button onClick={handleGoogleAuth}>Register with Google</button>
+      {error && <p>{error}</p>}
     </div>
   );
 };

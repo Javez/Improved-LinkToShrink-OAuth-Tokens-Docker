@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import dotenv from "dotenv";
 import NavBar from "../components/Navbar";
 import { useGoogleAuth } from "@react-oauth/google";
+import { isGoogleTokenValid } from "../middleware/googleTokenCheck";
 
 dotenv.config();
 const _host = process.env.BACKEND_HOST;
@@ -43,11 +44,38 @@ const AuthPage = () => {
 
   const handleGoogleLogin = async (response) => {
      try {
-      await signIn();
-      // Handle successful sign-in
-    } catch (error) {
-      // Handle sign-in error
-    }
+       const { id_token } = await signIn();
+       const result = await isGoogleTokenValid(id_token);
+       if (!result) {
+         setError("Google token is not valid");
+       } else {
+         const decodedToken = JSON.parse(atob(id_token.split(".")[1]));
+         const email = decodedToken.email;
+         const name = decodedToken.name;
+         const picture = decodedToken.picture;
+         const response = await fetch(`${_host}:${_port}/register`, {
+           method: "POST",
+           headers: {
+             "Content-Type": "application/json",
+           },
+           body: JSON.stringify({
+             email: email,
+             name: name,
+             picture: picture,
+             provider: "google",
+           }),
+         });
+         const data = await response.json();
+         if (data.success) {
+           // Redirect to main page
+           history.push("/login");
+         } else {
+           setError(data.message);
+         }
+       }
+     } catch (error) {
+       // Handle sign-in error
+     }
   };
 
   return (
