@@ -1,5 +1,5 @@
 import { Dialect, Sequelize } from 'sequelize';
-import { User, GoogleUser, Link } from './models/model';
+import { User, GoogleUser, Link } from './models/models';
 import dotenv from 'dotenv';
 
 dotenv.config();

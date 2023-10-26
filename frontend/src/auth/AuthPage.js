@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import dotenv from "dotenv";
 import NavBar from "../components/Navbar";
-import { useGoogleAuth } from "@react-oauth/google";
-import { isGoogleTokenValid } from "../middleware/googleTokenCheck";
+import { useGoogleLogin } from "@react-oauth/google";
+import isGoogleTokenValid from "../api/googleTokenCheck";
 
-dotenv.config();
 const _host = process.env.BACKEND_HOST;
 const _port = process.env.BACKEND_PORT;
 
@@ -14,7 +12,7 @@ const AuthPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
-  const { signIn } = useGoogleAuth();
+  const { signIn } = useGoogleLogin();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -43,39 +41,39 @@ const AuthPage = () => {
   };
 
   const handleGoogleLogin = async (response) => {
-     try {
-       const { id_token } = await signIn();
-       const result = await isGoogleTokenValid(id_token);
-       if (!result) {
-         setError("Google token is not valid");
-       } else {
-         const decodedToken = JSON.parse(atob(id_token.split(".")[1]));
-         const email = decodedToken.email;
-         const name = decodedToken.name;
-         const picture = decodedToken.picture;
-         const response = await fetch(`${_host}:${_port}/register`, {
-           method: "POST",
-           headers: {
-             "Content-Type": "application/json",
-           },
-           body: JSON.stringify({
-             email: email,
-             name: name,
-             picture: picture,
-             provider: "google",
-           }),
-         });
-         const data = await response.json();
-         if (data.success) {
-           // Redirect to main page
-           history.push("/login");
-         } else {
-           setError(data.message);
-         }
-       }
-     } catch (error) {
-       // Handle sign-in error
-     }
+    try {
+      const { id_token } = await signIn();
+      const result = await isGoogleTokenValid(id_token);
+      if (!result) {
+        setError("Google token is not valid");
+      } else {
+        const decodedToken = JSON.parse(atob(id_token.split(".")[1]));
+        const email = decodedToken.email;
+        const name = decodedToken.name;
+        const picture = decodedToken.picture;
+        const response = await fetch(`${_host}:${_port}/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            name: name,
+            picture: picture,
+            provider: "google",
+          }),
+        });
+        const data = await response.json();
+        if (data.success) {
+          // Redirect to main page
+          history.push("/login");
+        } else {
+          setError(data.message);
+        }
+      }
+    } catch (error) {
+      // Handle sign-in error
+    }
   };
 
   return (
@@ -111,6 +109,5 @@ const AuthPage = () => {
     </div>
   );
 };
-
 
 export default AuthPage;

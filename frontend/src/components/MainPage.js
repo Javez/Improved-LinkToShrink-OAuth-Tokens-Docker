@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import dotenv from "dotenv";
-import { NavBar } from "../components/Navbar";
-dotenv.config();
+import NavBar from "../components/Navbar";
 const _host = process.env.BACKEND_HOST;
 const _port = process.env.BACKEND_PORT;
 

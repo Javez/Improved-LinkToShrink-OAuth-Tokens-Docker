@@ -1,9 +1,9 @@
 import shrinkLink from '../api/shrink-api';
-import redis from '../db/redisDb';
+import redis from '../db/redis.db';
 import dotenv from 'dotenv';
 import { createToken } from '../middleware/auth/auth';
 import { OAuth2Client } from 'google-auth-library';
-import { Link, User, GoogleUser } from '../db/models/model';
+import { User, GoogleUser, Link } from '../db/models/models';
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 dotenv.config();
@@ -140,27 +140,6 @@ export class linkService {
     }
   }
 
-  async checkUserWithGoogle(data: any) {
-    try {
-      if (data.token) {
-        const ticket = await client.verifyIdToken({
-          idToken: data.token,
-          audience: process.env.GOOGLE_CLIENT_ID
-        });
-        const payload = ticket.getPayload();
-        if (payload) {
-          data.email = payload.email;
-        }
-        const user = {
-          email: data.email,
-          idToken: data.token
-        };
-        return user;
-      } else return false;
-    } catch (error) {
-      console.log(error);
-    }
-  }
 }
 
 export default new linkService();

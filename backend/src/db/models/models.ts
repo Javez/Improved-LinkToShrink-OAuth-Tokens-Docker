@@ -1,38 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import { sequelize } from '../sequelizeDb';
-
-export class User extends Model {
-  id!: number;
-  username!: string;
-  email!: string;
-  password!: string;
-}
-
-User.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
-  },
-  {
-    tableName: 'User',
-    sequelize: sequelize
-  }
-);
+import { sequelize } from '../sequelize.db';
 
 export class GoogleUser extends Model {
   id!: number;
@@ -86,6 +53,39 @@ Link.init(
   },
   {
     tableName: 'Link',
+    sequelize: sequelize
+  }
+);
+
+export class User extends Model {
+  id!: number;
+  username!: string;
+  email!: string;
+  password!: string;
+}
+
+User.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  },
+  {
+    tableName: 'User',
     sequelize: sequelize
   }
 );

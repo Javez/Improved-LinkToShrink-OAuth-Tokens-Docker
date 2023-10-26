@@ -1,6 +1,6 @@
 import express from 'express';
 import router from './routes/app-routes';
-import { SequelizeDB } from './db/sequelizeDb';
+import { SequelizeDB } from './db/sequelize.db';
 import dotenv from 'dotenv';
 
 const db = new SequelizeDB();

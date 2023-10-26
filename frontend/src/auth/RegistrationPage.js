@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import NavBar from "../components/Navbar";
-import dotenv from "dotenv";
-import { useGoogleAuth } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { useHistory } from "react-router-dom";
-import { isGoogleTokenValid } from "../middleware/googleTokenCheck";
-dotenv.config();
+import isGoogleTokenValid from "../api/googleTokenCheck";
 
 const _host = process.env.BACKEND_HOST;
 const _port = process.env.BACKEND_PORT;
@@ -13,7 +11,7 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { signIn } = useGoogleAuth();
+  const { signIn } = useGoogleLogin();
   const history = useHistory();
 
   const handleSubmit = async (event) => {
@@ -64,8 +62,6 @@ const RegisterPage = () => {
       // Handle sign-in error
     }
   };
-
-  
 
   return (
     <div>

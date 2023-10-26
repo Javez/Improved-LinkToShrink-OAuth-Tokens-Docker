@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 const NavBar = () => {
-  const [user, setUser] = useState({ name: "John Doe", icon: "user.png" });
 
   return (
     <nav>
@@ -18,8 +16,8 @@ const NavBar = () => {
           <button>Sign In</button>
         </Link>
         <div>
-          <img src={user.icon} alt="User Icon" />
-          <span>{user.name}</span>
+          <img alt="User Icon" />
+          <span>John Doe</span>
         </div>
       </div>
     </nav>
