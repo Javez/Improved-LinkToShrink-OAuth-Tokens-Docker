@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import NavBar from "../components/Navbar";
+import Footer from "../components/Footer";
+
 const _host = process.env.BACKEND_HOST;
 const _port = process.env.BACKEND_PORT;
 
@@ -37,20 +39,35 @@ const MainPage = () => {
 
   return (
     <div>
-      <NavBar />
-      <h1>Main Page</h1>
-      <label>
-        Insert a link to shorten:
-        <input type="text" value={link} onChange={handleLinkChange} />
-      </label>
-      <br />
-      <label>
-        Your link is:
-        <a href={shortLink}>{shortLink}</a>
-      </label>
-      <button type="submit" onClick={handleLinkSubmit}>
-        Shorten Link
-      </button>
+      <div>
+        <NavBar />
+      </div>
+      <main>
+        <h1>Main Page</h1>
+        <label>
+          Insert a link to shorten:
+          <input type="text" value={link} onChange={handleLinkChange} />
+        </label>
+        <br />
+        <label>
+          Your link is:
+          <a href={shortLink}>{shortLink}</a>
+        </label>
+        <button className="btn" type="submit" onClick={handleLinkSubmit}>
+          Shorten Link
+        </button>
+      </main>
+      <div>
+        <h2>Your links:</h2>
+        <ol>
+          <li>Item1</li>
+          <li>Item2</li>
+          <li>Item3</li>
+        </ol>
+      </div>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 };

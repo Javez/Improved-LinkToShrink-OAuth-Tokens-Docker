@@ -80,7 +80,7 @@ const AuthPage = () => {
     <div>
       <NavBar />
       <h1>Sign In</h1>
-      <form onSubmit={handleLogin}>
+      <form className="auth-form" onSubmit={handleLogin}>
         <label>
           Email:
           <input
@@ -101,10 +101,14 @@ const AuthPage = () => {
           />
         </label>
         <br />
-        <button type="submit">Sign In</button>
+        <button type="submit">
+          Sign In
+        </button>
       </form>
       <br />
-      <button onClick={handleGoogleLogin}>Sign in with Google</button>
+      <button onClick={handleGoogleLogin}>
+        Sign in with Google
+      </button>
       {error && <p>{error}</p>}
     </div>
   );

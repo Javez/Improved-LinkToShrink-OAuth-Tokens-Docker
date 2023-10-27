@@ -5,6 +5,7 @@ import AuthPage from "./auth/AuthPage";
 import MainPage from "./components/MainPage";
 import RegisterPage from "./auth/RegistrationPage";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import "./sass/main.scss";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 

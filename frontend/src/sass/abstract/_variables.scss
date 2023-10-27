@@ -1,0 +1,27 @@
+$color-white: #fff;
+$color-black: #000;
+
+$color-dark-red: #692c26;
+$color-dark-gray: #aeaeae;
+$color-light-black: #141414;
+$color-blue: #0075b0;
+
+$default-font-size: 1.6rem;
+
+$color-light-pink: rgba(75,75,154,1);
+$color-light-blue:rgba(0,212,255,1);
+
+:export {
+    color-white: $color-white;
+    color-black: $color-black;
+
+    color-dark-red: $color-dark-red;
+    color-dark-gray: $color-dark-gray;
+    color-light-black: $color-light-black;
+    color-blue: $color-blue;
+
+    color-light-pink: $color-light-pink;
+    color-light-blue: $color-light-blue;
+
+    default-font-size: $default-font-size;
+}
