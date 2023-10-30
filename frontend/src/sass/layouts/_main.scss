@@ -1,8 +1,11 @@
 main {
+}
+
+.main-container {
   margin: 1rem auto;
   box-shadow: -10px 0 10px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  border-radius: 1rem;
   width: 90%;
-  height: 100%;
+  height: calc(100vh - 1rem);
   text-align: center;
 }

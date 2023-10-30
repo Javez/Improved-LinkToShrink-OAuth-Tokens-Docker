@@ -1,0 +1,16 @@
+import React from "react";
+
+const RecentLinks = () => {
+  return (
+    <div className="recent-links-container">
+      <h2>Your links:</h2>
+      <ol>
+        <li>Item1</li>
+        <li>Item2</li>
+        <li>Item3</li>
+      </ol>
+    </div>
+  );
+};
+
+export default RecentLinks;

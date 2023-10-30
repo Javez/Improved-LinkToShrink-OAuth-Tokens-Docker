@@ -3,19 +3,31 @@
 *,
 *::after,
 *::before {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-    font-size: 62.5%; //1 rem = 10px; 10px/16px = 62.5%
-       height: 100%;
+  font-size: 62.5%; //1 rem = 10px; 10px/16px = 62.5%
 }
 
 body {
-    box-sizing: inherit;
-    background: linear-gradient(198deg, variables.$color-light-pink 48%, variables.$color-light-blue 100%);
-    background-repeat: no-repeat;
-    text-decoration: none;
+  box-sizing: inherit;
+  background: linear-gradient(
+    198deg,
+    variables.$color-light-pink 48%,
+    variables.$color-light-blue 100%
+  );
+  background-repeat: no-repeat;
+  text-decoration: none;
+}
+
+.div-container {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem auto;
+  box-shadow: -10px 0 10px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  width: 90%;
 }

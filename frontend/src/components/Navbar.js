@@ -1,32 +1,38 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import userIcon from "../img/User-icon.png";
+const NavBar = (props) => {
+  const username = props.username ? props.username : "Anonymous"; 
 
-const NavBar = () => {
 
   return (
-    <nav>
-      <Link to="/">
+    <div className="navbar-container">
+      <Link to="/" className="navbar-logo">
         <img src="logo.png" alt="Logo" />
         <a href="/">Link to Shrink</a>
       </Link>
-      <div>
-        <ul>
-          <li>Support</li>
-          <li>Other Products</li>
-          <li>About</li>
-        </ul>
-        <Link to="/signup">
-          <button>Sign Up</button>
-        </Link>
-        <Link to="/signin">
-          <button>Sign In</button>
-        </Link>
-        <div>
-          <img alt="User Icon" />
-          <span>John Doe</span>
+      <ul className="navbar-links">
+        <li className="btn-dark">Support</li>
+        <li className="btn-dark">Other Products</li>
+        <li className="btn-dark">About</li>
+      </ul>
+      <div className="navbar-user">
+        <div className="navbar-user-container">
+          <Link to="/signup" className="navbar-user-link">
+            <button>SignUp</button>
+          </Link>
+          <Link to="/signin" className="navbar-user-link">
+            <button>SignIn</button>
+          </Link>
+          <div className="navbar-user-info">
+            <span>{username}</span>
+          </div>
+        </div>
+        <div className="navbar-user-icon">
+          <img src={userIcon} alt="User Icon" />
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 

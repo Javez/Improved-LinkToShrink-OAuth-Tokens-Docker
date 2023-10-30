@@ -1,3 +1,32 @@
+@use "../abstract/_variables";
+
 footer {
-    
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-radius: 1rem;
+  
+
+  img {
+    display: flex;
+    height: 8rem;
+    width: 8rem;
+    background: linear-gradient(
+      198deg,
+      variables.$color-light-pink 48%,
+      variables.$color-light-blue 100%
+    );
+    border-radius: 1rem;
+    padding: 0.5rem;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.5s ease-in-out; /* add transition property */
+    &:hover {
+      transform: scale(1.2) rotate(360deg); /* add transform property */
+    }
+  }
 }

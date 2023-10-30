@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
-    <footer>
+    <div className="footer-container">
       <Link to="/">
         <img src="logo.png" alt="Logo" />
         <a href="/">Link to Shrink</a>
@@ -13,7 +13,7 @@ const NavBar = () => {
         <a>Company</a>
         <a>Products</a>
       </div>
-    </footer>
+    </div>
   );
 };
 

@@ -1,3 +1,9 @@
-form {
-    
+.link-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 30rem;
+    width: 40%;
+    background-color: purple;
 }
