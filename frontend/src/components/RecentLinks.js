@@ -4,7 +4,7 @@ const RecentLinks = () => {
   return (
     <div className="recent-links-container">
       <h2>Your links:</h2>
-      <ol>
+      <ol className="recent-links-ordered-list">
         <li>Item1</li>
         <li>Item2</li>
         <li>Item3</li>

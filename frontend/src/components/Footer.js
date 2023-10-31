@@ -4,15 +4,15 @@ import { Link } from "react-router-dom";
 const NavBar = () => {
   return (
     <div className="footer-container">
-      <Link to="/">
+      <Link to="/" className="footer-logo">
         <img src="logo.png" alt="Logo" />
         <a href="/">Link to Shrink</a>
       </Link>
-      <div>
-        <a>@ Copyright</a>
-        <a>Company</a>
-        <a>Products</a>
+      <div className="footer-links">
+        <li className="btn-dark">Company</li>
+        <li className="btn-dark">Privacy</li>
       </div>
+      <a className="footer-copyright">© 2023 Danylov O.G. | All Rights Reserverd</a>
     </div>
   );
 };

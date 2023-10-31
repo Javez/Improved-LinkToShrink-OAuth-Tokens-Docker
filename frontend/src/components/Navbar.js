@@ -8,7 +8,7 @@ const NavBar = (props) => {
   return (
     <div className="navbar-container">
       <Link to="/" className="navbar-logo">
-        <img src="logo.png" alt="Logo" />
+        <img src="logo.png" alt="Logo" className="left-img"/>
         <a href="/">Link to Shrink</a>
       </Link>
       <ul className="navbar-links">
@@ -29,7 +29,7 @@ const NavBar = (props) => {
           </div>
         </div>
         <div className="navbar-user-icon">
-          <img src={userIcon} alt="User Icon" />
+          <img src={userIcon} alt="User Icon" className="right-img"/>
         </div>
       </div>
     </div>

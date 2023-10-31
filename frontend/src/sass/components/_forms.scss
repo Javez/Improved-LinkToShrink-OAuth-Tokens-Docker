@@ -5,5 +5,24 @@
     align-items: center;
     height: 30rem;
     width: 40%;
-    background-color: purple;
+    background-color: rgb(255, 255, 255);
+      border-radius: 1rem 1rem 0 0;
+    .link-input {
+        input {
+            margin-top: 1rem;
+            outline: 1px solid red;
+            outline-offset: -4px; 
+        }
+        
+    }
+    button {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    .link-info {
+        a {
+            border: 1px solid #ff3b3b;
+            border-radius: 0.5rem
+        }
+    }
 }

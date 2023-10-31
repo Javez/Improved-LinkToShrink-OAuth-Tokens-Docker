@@ -26,7 +26,7 @@ const MainPage = () => {
           <RecentLinks />
         </section>
       </main>
-      <footer className="footer-container">
+      <footer className="footer-blockr">
         <Footer />
       </footer>
     </div>

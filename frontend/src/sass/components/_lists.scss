@@ -1,0 +1,23 @@
+.section-recent-links {
+    display: flex;
+    justify-content: center;
+}
+
+.recent-links-container {
+
+    background-color: rgb(255, 255, 255);
+    border-radius: 0 0 1rem 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1rem solid rgb(0, 0, 0);
+    width: 40%;
+}
+
+.recent-links-ordered-list {
+    color: white;
+    list-style-type: none;
+    li { 
+        border-radius: 0.5rem;
+        background-color: rgb(0, 0, 0);
+        margin-top: 1rem;
+    }
+}

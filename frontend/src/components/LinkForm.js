@@ -33,16 +33,16 @@ const LinkForm = (props) => {
   return (
     <div className="link-form-container">
       <h1>Insert a link to reduce:</h1>
-      <label>
+      <label className="link-input">
         <input type="text" value={link} onChange={handleLinkChange} />
       </label>
       <br />
       <button className="btn" type="submit" onClick={handleLinkSubmit}>
-        Shorten Link
+        Reduce My Link
       </button>
+      <h1>Awaiting your links :)</h1>
       <label className="link-info">
-        Your link is:
-        <a href={shortLink}>{shortLink}Ceck</a>
+        <a type="text" href={link} value={link}/>No links<a/>
       </label>
     </div>
   );

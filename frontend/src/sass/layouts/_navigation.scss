@@ -78,10 +78,27 @@
       variables.$color-light-blue 100%
     );
     border-radius: 1rem;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.5s ease-in-out; /* add transition property */
+    box-shadow: inset 0 0 1rem rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out; /* add transition property */
     &:hover {
-      transform: scale(1.2) rotate(360deg); /* add transform property */
+      border: 1px solid black;
+    }
+  }
+
+  .left-img {
+    &:hover {
+      transform: translateX(-1rem);
+    }
+    &:active {
+      transform: translateX(-1rem) scale(0.95); /* add transform property */
+    }
+  }
+  .right-img {
+    &:hover {
+      transform: translateX(1rem);
+    }
+    &:active {
+      transform: translateX(1rem) scale(0.95); /* add transform property */
     }
   }
 }
