@@ -69,7 +69,7 @@ footer {
     box-shadow: inset 0 0 1rem rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease-in-out; /* add transition property */
     &:hover {
-      border: 1px solid black;
+      border: 0.1rem solid black;
       transform: translateX(-1rem);
     }
     &:active {
