@@ -8,9 +8,56 @@
   background-color: rgb(255, 255, 255);
   border-radius: 1rem 1rem 0 0;
   &-info_group {
-    a {
-      border: 1px solid #ff3b3b;
-      border-radius: 0.5rem;
+    position: relative;
+    width: 50%;
+    :focus {
+      outline: 0;
+      border-image: linear-gradient(
+        to right,
+        rgb(211, 92, 224),
+        rgb(120, 53, 253)
+      );
+      border-image-slice: 1;
+    }
+    :focus ~ .form-container-input_group__label,
+    :not(:placeholder-shown) ~ .form-container-input_group__label {
+      position: absolute;
+      top: -1.3rem;
+      display: block;
+      transition: 0.2s;
+      font-size: 1.2rem;
+      color: black;
+      font-weight: 700;
+    }
+
+    :required,
+    :invalid {
+      box-shadow: none;
+    }
+    ::placeholder {
+      color: transparent;
+    }
+    &__input {
+      border: 0;
+      outline: 0;
+      color: black;
+      background: transparent;
+      transition: border-color 0.2s;
+      border-bottom: 0.2rem solid gray;
+      font-size: 2rem;
+      margin-top: 1rem;
+      width: 100%;
+    }
+    &__copy {
+      cursor: pointer;
+      :hover {
+        transform: scale(1.5);
+        transition: 0.3s;
+      }
+      :active { 
+        transform: scale(1);
+        transition: 0.2s;
+      }
     }
   }
   &-input_group {
@@ -24,16 +71,18 @@
         rgb(120, 53, 253)
       );
       border-image-slice: 1;
-      & ~ .form-container-input_group__label {
-        position: absolute;
-        top: -1.2rem;
-        display: block;
-        transition: 0.2s;
-        font-size: 1.2rem;
-        color: black;
-        font-weight: 700;
-      }
     }
+    :focus ~ .form-container-input_group__label,
+    :not(:placeholder-shown) ~ .form-container-input_group__label {
+      position: absolute;
+      top: -1.5rem;
+      display: block;
+      transition: 0.2s;
+      font-size: 1.2rem;
+      color: black;
+      font-weight: 700;
+    }
+
     :required,
     :invalid {
       box-shadow: none;
@@ -55,7 +104,7 @@
     &__label {
       margin-top: 1rem;
       position: absolute;
-      top: 0;
+      top: -0.5rem;
       display: block;
       font-size: 2rem;
       transition: 0.2s;

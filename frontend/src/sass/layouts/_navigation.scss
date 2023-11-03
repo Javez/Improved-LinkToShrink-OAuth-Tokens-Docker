@@ -45,8 +45,13 @@
       &_links {
         display: flex;
         flex-direction: row;
+        padding: 0 1rem 0;
         &__button {
-
+          display: flex;
+          text-decoration: none;
+          align-items: center;
+          height: 4.5rem;
+          padding: 0 1rem 0;
         }
       }
       &_info {
