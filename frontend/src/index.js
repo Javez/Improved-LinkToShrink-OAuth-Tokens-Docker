@@ -1,25 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import AuthPage from "./auth/AuthPage";
 import MainPage from "./components/MainPage";
 import RegisterPage from "./auth/RegistrationPage";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import "./sass/main.scss";
 
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { BrowserRouter } from "react-router-dom/cjs/react-router-dom.min";
 
 const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={MainPage} />
-        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-          <Route exact path="/login" component={AuthPage} />
-          <Route exact path="/register" component={RegisterPage} />
-        </GoogleOAuthProvider>
-      </Switch>
-    </Router>
+    <GoogleOAuthProvider client_id={process.env.GOOGLE_CLIENT_ID}>
+      <BrowserRouter>
+        <Router>
+            <Route exact path="/" component={MainPage} />
+            <Route exact path="/login" component={AuthPage} />
+            <Route exact path="/register" component={RegisterPage} />
+        </Router>
+      </BrowserRouter>
+    </GoogleOAuthProvider>
   );
 };
 

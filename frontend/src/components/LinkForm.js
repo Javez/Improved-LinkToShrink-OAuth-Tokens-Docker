@@ -39,7 +39,7 @@ const LinkForm = (props) => {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container form-container-link">
       <h1>Insert a link to reduce</h1>
       <div className="form-container-input_group">
         <input
@@ -68,7 +68,7 @@ const LinkForm = (props) => {
         />
         <FontAwesomeIcon
           icon={faCopy}
-          className="form-container-info_group__copy"
+          className="copy-icon"
           onClick={handleCopy}
         />
       </div>

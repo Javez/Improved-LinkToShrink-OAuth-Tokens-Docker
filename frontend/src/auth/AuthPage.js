@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import NavBar from "../components/Navbar";
 import { useGoogleLogin } from "@react-oauth/google";
 import isGoogleTokenValid from "../api/googleTokenCheck";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 const _host = process.env.BACKEND_HOST;
 const _port = process.env.BACKEND_PORT;
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
 
 const AuthPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
-  const { signIn } = useGoogleLogin();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -42,7 +43,7 @@ const AuthPage = () => {
 
   const handleGoogleLogin = async (response) => {
     try {
-      const { id_token } = await signIn();
+      const { id_token } = await useGoogleLogin;
       const result = await isGoogleTokenValid(id_token);
       if (!result) {
         setError("Google token is not valid");
@@ -77,39 +78,58 @@ const AuthPage = () => {
   };
 
   return (
-    <div>
-      <NavBar />
-      <h1>Sign In</h1>
-      <form className="auth-form" onSubmit={handleLogin}>
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <button type="submit">
-          Sign In
-        </button>
-      </form>
-      <br />
-      <button onClick={handleGoogleLogin}>
-        Sign in with Google
-      </button>
-      {error && <p>{error}</p>}
+    <div className="main-container">
+      <header className="header-container">
+        <h1>Sign In</h1>
+      </header>
+      <div className="main-block">
+        <section className="section-auth-form">
+          <form
+            className="form-container form-container-auth"
+            onSubmit={handleLogin}
+          >
+            <h3>Please enter your data</h3>
+            <div className="form-container-input_group">
+              <input
+                className="form-container-input_group__input"
+                placeholder="https://example.com"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <label className="form-container-input_group__label">
+                Email
+              </label>
+              <br />
+            </div>
+            <div className="form-container-input_group">
+              <input
+                className="form-container-input_group__input"
+                placeholder="https://example.com"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <label className="form-container-input_group__label">
+                Password
+              </label>
+            </div>
+            <br />
+            <button type="submit" className="btn btn-slim">
+              Sign In
+            </button>
+          </form>
+          <br />
+          <form className="form-container form-auth-container-btn">
+            <button className="btn btn-slim" onClick={handleGoogleLogin}>
+              <FontAwesomeIcon icon={faGoogle} className="google-icon" />Sign in with Google
+            </button>
+          </form>
+          {error && <p>{error}</p>}
+        </section>
+      </div>
     </div>
   );
 };

@@ -9,10 +9,10 @@ const NavBar = () => {
         <a href="/">Link to Shrink</a>
       </Link>
       <div className="footer-links">
-        <li className="btn-dark">Company</li>
-        <li className="btn-dark">Privacy</li>
+        <li className="btn">Company</li>
+        <li className="btn">Privacy</li>
       </div>
-      <a className="footer-copyright">© 2023 Danylov O.G. | All Rights Reserverd</a>
+      <p className="footer-copyright">© 2023 Danylov O.G. | All Rights Reserverd</p>
     </div>
   );
 };

@@ -4,7 +4,6 @@ import userIcon from "../img/User-icon.png";
 const NavBar = (props) => {
   const username = props.username ? props.username : "Anonymous"; 
 
-
   return (
     <div className="navbar-container">
       <Link to="/" className="navbar-container-logo">
@@ -12,24 +11,24 @@ const NavBar = (props) => {
         <a href="/">Link to Shrink</a>
       </Link>
       <ul className="navbar-container-links">
-        <li className="btn-dark">Support</li>
-        <li className="btn-dark">Other Products</li>
-        <li className="btn-dark">About</li>
+        <li className="btn">Support</li>
+        <li className="btn">Other Products</li>
+        <li className="btn">About</li>
       </ul>
       <div className="navbar-container-user">
         <div className="navbar-container-user-field">
           <div className="navbar-container-user-field_links">
             <Link
-              to="/signup"
+              to="register"
               className="navbar-container-user-field_links__button"
             >
-              <button>SignUp</button>
+              SignUp
             </Link>
             <Link
-              to="/signin"
+              to="login"
               className="navbar-container-user-field_links__button"
             >
-              <button>SignIn</button>
+              SignIn
             </Link>
           </div>
           <div className="navbar-container-user-field_info">

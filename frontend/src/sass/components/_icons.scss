@@ -1,0 +1,25 @@
+.google-icon {
+  cursor: pointer;
+  margin: 0 1rem 0;
+  :hover {
+    color: rgb(211, 92, 224);
+  }
+  :active {
+    color: rgb(120, 53, 253);
+  }
+}
+
+.copy-icon {
+  cursor: pointer;
+  transform-origin: center;
+  :hover {
+    color: rgb(211, 92, 224);
+    transform: scale(1.5);
+    transition: 0.3s;
+  }
+  :active {
+    color: rgb(120, 53, 253);
+    transform: scale(1);
+    transition: 0.2s;
+  }
+}
