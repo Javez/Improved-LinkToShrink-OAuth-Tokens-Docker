@@ -91,22 +91,27 @@ export class linkService {
   }
 
   async addUser(data: any) {
-    let newUser;
     try {
-      if (data.provider === 'google') {
-        const newData = {
-          username: data.username,
-          email: data.email
-        };
-        newUser = await GoogleUser.create(newData);
-      } else {
-        const newData = {
-          username: data.username,
-          email: data.email,
-          password: data.password
-        };
-        newUser = await User.create(data);
-      }
+      const newData = {
+        username: data.username,
+        email: data.email,
+        password: data.password
+      };
+      const newUser = await User.create(data);
+
+      return newUser;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async addGoogleUser(data: any) {
+    try {
+      const newData = {
+        username: data.username,
+        email: data.email
+      };
+      const newUser = await GoogleUser.create(newData);
+
       return newUser;
     } catch (error) {
       console.log(error);
@@ -114,23 +119,14 @@ export class linkService {
   }
 
   async checkUser(data: any) {
-    let user;
     try {
-      if (data.provider === 'google') {
-        user = await GoogleUser.findOne({
-          where: {
-            username: data.username,
-            email: data.email
-          }
-        });
-      } else {
-        user = await User.findOne({
-          where: {
-            email: data.email,
-            password: data.password
-          }
-        });
-      }
+      let user;
+      user = await User.findOne({
+        where: {
+          email: data.email,
+          password: data.password
+        }
+      });
       if (user) {
         const token = createToken(data.email, data.password);
         return token;
@@ -140,6 +136,23 @@ export class linkService {
     }
   }
 
+  async checkGoogleUser(data: any) {
+    try {
+      let user;
+      user = await GoogleUser.findOne({
+        where: {
+          username: data.username,
+          email: data.email
+        }
+      });
+      if (user) {
+        const token = createToken(data.email, data.password);
+        return token;
+      } else return false;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default new linkService();

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import isGoogleTokenValid from "../api/googleTokenCheck";
@@ -7,7 +8,6 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 const _host = process.env.BACKEND_HOST;
 const _port = process.env.BACKEND_PORT;
-const googleClientId = process.env.GOOGLE_CLIENT_ID;
 
 const AuthPage = () => {
   const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ const AuthPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     // Send login request to backend
-    fetch(`${_host}:${_port}/login`, {
+    fetch(`${_host}:${_port}/login/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const AuthPage = () => {
         const email = decodedToken.email;
         const name = decodedToken.name;
         const picture = decodedToken.picture;
-        const response = await fetch(`${_host}:${_port}/register`, {
+        const response = await fetch(`${_host}:${_port}/login/googleuser`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -84,6 +84,11 @@ const AuthPage = () => {
       </header>
       <div className="main-block">
         <section className="section-auth-form">
+          {error && (
+            <div className="error-block">
+              <p className="error">{error}</p>
+            </div>
+          )}
           <form
             className="form-container form-container-auth"
             onSubmit={handleLogin}
@@ -95,12 +100,11 @@ const AuthPage = () => {
                 placeholder="https://example.com"
                 type="email"
                 value={email}
+                id="email"
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <label className="form-container-input_group__label">
-                Email
-              </label>
+              <label htmlFor="email" className="form-container-input_group__label">Email</label>
               <br />
             </div>
             <div className="form-container-input_group">
@@ -109,25 +113,30 @@ const AuthPage = () => {
                 placeholder="https://example.com"
                 type="password"
                 value={password}
+                id="password"
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <label className="form-container-input_group__label">
+              <label htmlFor="password" className="form-container-input_group__label">
                 Password
               </label>
             </div>
             <br />
             <button type="submit" className="btn btn-slim">
-              Sign In
+              Confirm
             </button>
+            <br />
+            <Link to="/register">
+              <a className="redirect-link">Dont have an account? Register</a>
+            </Link>
           </form>
           <br />
           <form className="form-container form-auth-container-btn">
             <button className="btn btn-slim" onClick={handleGoogleLogin}>
-              <FontAwesomeIcon icon={faGoogle} className="google-icon" />Sign in with Google
+              <FontAwesomeIcon icon={faGoogle} className="google-icon" />
+              Login with Google
             </button>
           </form>
-          {error && <p>{error}</p>}
         </section>
       </div>
     </div>

@@ -1,3 +1,5 @@
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import Footer from "../components/Footer";
 import LinkForm from "./LinkForm";
@@ -7,6 +9,14 @@ const _host = process.env.BACKEND_HOST;
 const _port = process.env.BACKEND_PORT;
 
 const MainPage = () => {
+  const history = useHistory();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      history.push("/login");
+    }
+  }, [history]);
 
 
   return (

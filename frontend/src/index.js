@@ -14,9 +14,9 @@ const App = () => {
     <GoogleOAuthProvider client_id={process.env.GOOGLE_CLIENT_ID}>
       <BrowserRouter>
         <Router>
-            <Route exact path="/" component={MainPage} />
-            <Route exact path="/login" component={AuthPage} />
-            <Route exact path="/register" component={RegisterPage} />
+          <Route exact path="/" component={MainPage} />
+          <Route exact path="/login" component={AuthPage} />
+          <Route exact path="/register" component={RegisterPage} />
         </Router>
       </BrowserRouter>
     </GoogleOAuthProvider>
