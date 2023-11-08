@@ -1,6 +1,7 @@
 import express from 'express';
 import linkController from '../controllers/app-controller';
 import { verifyToken } from '../middleware/auth/auth';
+
 export const router = express.Router();
 
 router.post('/login/user', linkController.checkUser);

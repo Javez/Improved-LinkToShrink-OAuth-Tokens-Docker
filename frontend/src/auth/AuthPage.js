@@ -127,7 +127,7 @@ const AuthPage = () => {
             </button>
             <br />
             <Link to="/register">
-              <a className="redirect-link">Dont have an account? Register</a>
+              <p className="redirect-link">Dont have an account? Register</p>
             </Link>
           </form>
           <br />

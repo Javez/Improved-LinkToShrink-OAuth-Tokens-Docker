@@ -6,8 +6,8 @@ import isGoogleTokenValid from "../api/googleTokenCheck";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
-const _host = process.env.BACKEND_HOST;
-const _port = process.env.BACKEND_PORT;
+const _host = process.env.REACT_APP_BACKEND_HOST;
+const _port = process.env.REACT_APP_BACKEND_PORT;
 
 const RegisterPage = ({ ClientId }) => {
   const [username, setUsername] = useState("");
@@ -18,24 +18,22 @@ const RegisterPage = ({ ClientId }) => {
 
   const handleRegistration = async (event) => {
     event.preventDefault();
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("password", password);
     try {
-      const response = await fetch(`${_host}:${_port}/register/user`, {
+      const response = await fetch(`http://${_host}:${_port}/register/user`, {
         method: "POST",
-        headers: {
-          "Content-Type": "x-www-form-urlencoded",
-        },
         credentials: "include",
-        body: JSON.stringify({
-          username: event.target.username.value,
-          email: event.target.email.value,
-          password: event.target.password.value,
-        }),
+        body: formData,
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
+      } else {
+        response.ok ? console.log("All data sended") : console.log("some problem at sending data");
+        console.log(await response.body);
       }
-      const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error(
         "A network error occurred when trying to fetch resource:",
@@ -106,7 +104,10 @@ const RegisterPage = ({ ClientId }) => {
                 id="username"
                 onChange={(e) => setUsername(e.target.value)}
               />
-              <label htmlFor="username" className="form-container-input_group__label">
+              <label
+                htmlFor="username"
+                className="form-container-input_group__label"
+              >
                 Username
               </label>
             </div>
@@ -119,7 +120,12 @@ const RegisterPage = ({ ClientId }) => {
                 id="email"
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <label htmlFor="email" className="form-container-input_group__label">Email</label>
+              <label
+                htmlFor="email"
+                className="form-container-input_group__label"
+              >
+                Email
+              </label>
             </div>
             <div className="form-container-input_group">
               <input
@@ -130,7 +136,10 @@ const RegisterPage = ({ ClientId }) => {
                 id="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <label htmlFor="password" className="form-container-input_group__label">
+              <label
+                htmlFor="password"
+                className="form-container-input_group__label"
+              >
                 Password
               </label>
             </div>
@@ -138,7 +147,7 @@ const RegisterPage = ({ ClientId }) => {
               Confirm
             </button>
             <Link to="/login">
-              <a className="redirect-link">Already have account? Sing In</a>
+              <p className="redirect-link">Already have account? Sing In</p>
             </Link>
           </form>
           <br />
