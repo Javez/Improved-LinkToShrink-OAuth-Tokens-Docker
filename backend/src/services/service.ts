@@ -99,7 +99,7 @@ export class linkService {
       };
       const newUser = await User.create(data);
 
-      return newUser;
+      return true;
     } catch (error) {
       console.log(error);
     }
@@ -120,8 +120,7 @@ export class linkService {
 
   async checkUser(data: any) {
     try {
-      let user;
-      user = await User.findOne({
+      const user = await User.findOne({
         where: {
           email: data.email,
           password: data.password
@@ -129,7 +128,12 @@ export class linkService {
       });
       if (user) {
         const token = createToken(data.email, data.password);
-        return token;
+        const userAndTokenData = {
+          username: user.username,
+          token: token
+        };
+        console.log('backend service', userAndTokenData.username, userAndTokenData.token);
+        return userAndTokenData;
       } else return false;
     } catch (error) {
       console.log(error);

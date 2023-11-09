@@ -1,8 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import userIcon from "../img/User-icon.png";
 const NavBar = (props) => {
+  
+  const history = useHistory();
   const username = props.username ? props.username : "Anonymous"; 
+
+  function handleLogout() {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("username");
+
+    history.push("/login");
+  }
 
   return (
     <div className="navbar-container">
@@ -19,17 +28,9 @@ const NavBar = (props) => {
         <div className="navbar-container-user-field">
           <div className="navbar-container-user-field_links">
             <Link
-              to="register"
+              onClick={handleLogout}
               className="navbar-container-user-field_links__button"
-            >
-              SignUp
-            </Link>
-            <Link
-              to="login"
-              className="navbar-container-user-field_links__button"
-            >
-              SignIn
-            </Link>
+            >Log Out</Link>
           </div>
           <div className="navbar-container-user-field_info">
             <span>{username}</span>

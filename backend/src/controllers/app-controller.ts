@@ -82,8 +82,8 @@ class appController {
         email: req.body.email,
         password: req.body.password
       };
-      await linkServices.addUser(data);
-      res.send(data);
+      const result = await linkServices.addUser(data);
+      if(result === true) {res.sendStatus(200);} else {res.sendStatus(500);}
     } catch {
       console.log(error);
     }
@@ -110,10 +110,10 @@ class appController {
       };
       const result = await linkServices.checkUser(data);
       if (result) {
-        res.redirect(`${_host}:${_port}/`);
-        res.send(data);
+        console.log('backend controller', result.username, result.token);
+        res.send(result);
       } else {
-        res.redirect(`${_host}:${_port}/auth`);
+        res.status(500);
       }
     } catch (error) {
       console.log(error);

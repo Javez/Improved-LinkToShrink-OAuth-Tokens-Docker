@@ -31,8 +31,12 @@ const RegisterPage = ({ ClientId }) => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
-        response.ok ? console.log("All data sended") : console.log("some problem at sending data");
-        console.log(await response.body);
+        response.ok
+          ? console.log("All data sended")
+          : console.log("some problem at sending data");
+        history.push("/login", {
+          success: "Registration successful. Please log in.",
+        });
       }
     } catch (error) {
       console.error(

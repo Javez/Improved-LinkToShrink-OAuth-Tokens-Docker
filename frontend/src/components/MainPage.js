@@ -13,7 +13,8 @@ const MainPage = () => {
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-    if (!token) {
+    const username = sessionStorage.getItem("username");
+    if (!token && !username) {
       history.push("/login");
     }
   }, [history]);
@@ -22,7 +23,7 @@ const MainPage = () => {
   return (
     <div className="main-container">
       <nav className="nav-block">
-        <NavBar />
+        <NavBar username={sessionStorage.getItem("username")}/>
       </nav>
       <header className="header-container">
         <h1>Main page</h1>
