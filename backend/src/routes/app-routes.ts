@@ -5,9 +5,8 @@ import { verifyToken } from '../middleware/auth/auth';
 export const router = express.Router();
 
 router.post('/login/user', linkController.checkUser);
-router.post("/login/googleuser", linkController.checkGoogleUser);
 router.post('/register/user', linkController.addUser);
-router.post('/register/googleuser', linkController.addGoogleUser)
+router.post('/auth/googleuser', linkController.checkGoogleUser);
 router.get('/', verifyToken, (req, res) => {
     res.json({ success: true, message: 'Protected resource' });
 });

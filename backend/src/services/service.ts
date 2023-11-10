@@ -111,8 +111,17 @@ export class linkService {
         email: data.email
       };
       const newUser = await GoogleUser.create(newData);
-
-      return newUser;
+      const token = createToken(data.username, data.email);
+      const userAndTokenData = {
+        username: newData.username,
+        token: token
+      };
+      console.log(
+        'backend service',
+        userAndTokenData.username,
+        userAndTokenData.token
+      );
+      return userAndTokenData;
     } catch (error) {
       console.log(error);
     }
@@ -131,8 +140,7 @@ export class linkService {
         const userAndTokenData = {
           username: user.username,
           token: token
-        };
-        console.log('backend service', userAndTokenData.username, userAndTokenData.token);
+        }
         return userAndTokenData;
       } else return false;
     } catch (error) {
@@ -141,21 +149,29 @@ export class linkService {
   }
 
   async checkGoogleUser(data: any) {
-    try {
-      let user;
-      user = await GoogleUser.findOne({
-        where: {
-          username: data.username,
-          email: data.email
-        }
-      });
-      if (user) {
-        const token = createToken(data.email, data.password);
-        return token;
-      } else return false;
-    } catch (error) {
-      console.log(error);
-    }
+   try {
+     const user = await GoogleUser.findOne({
+       where: {
+         username: data.username,
+         email: data.email
+       }
+     });
+     if (user) {
+       const token = createToken(data.username, data.email);
+       const userAndTokenData = {
+         username: user.username,
+         token: token
+       };
+       console.log(
+         'backend service',
+         userAndTokenData.username,
+         userAndTokenData.token
+       );
+       return userAndTokenData;
+     } else return false;
+   } catch (error) {
+     console.log(error);
+   }
   }
 }
 

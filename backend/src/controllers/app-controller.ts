@@ -89,19 +89,6 @@ class appController {
     }
   };
 
-  addGoogleUser = async (req: Request, res: Response) => {
-    try {
-      const data = {
-        username: req.body.username,
-        email: req.body.email
-      };
-      await linkServices.addGoogleUser(data);
-      res.send(data);
-    } catch {
-      console.log(error);
-    }
-  };
-
   checkUser = async (req: Request, res: Response) => {
     try {
       const data = {
@@ -110,7 +97,6 @@ class appController {
       };
       const result = await linkServices.checkUser(data);
       if (result) {
-        console.log('backend controller', result.username, result.token);
         res.send(result);
       } else {
         res.status(500);
@@ -128,9 +114,10 @@ class appController {
       };
       const result = await linkServices.checkGoogleUser(data);
       if (result) {
-        res.send(data);
+        res.send(result);
       } else {
-        res.send('error:' + error);
+        const newResult = await linkServices.addGoogleUser(data);
+        res.send(newResult);
       }
     } catch (error) {
       console.log(error);

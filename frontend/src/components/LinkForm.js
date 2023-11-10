@@ -43,13 +43,14 @@ const LinkForm = (props) => {
       <h1>Insert a link to reduce</h1>
       <div className="form-container-input_group">
         <input
+          id="link"
           type="text"
           value={link}
           onChange={handleLinkChange}
           className="form-container-input_group__input"
           placeholder="https://example.com"
         />
-        <label for="name" className="form-container-input_group__label">
+        <label htmlFor="link" for="name" className="form-container-input_group__label">
           https://example.com
         </label>
       </div>

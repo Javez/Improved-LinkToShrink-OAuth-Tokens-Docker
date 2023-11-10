@@ -13,7 +13,7 @@ const RecentLinks = () => {
   }, []);
 
   // Function to add a new link
-  const addLink = (newLink) => {
+  /*const addLink = (newLink) => {
     setLinks((prevLinks) => {
       let updatedLinks = [...prevLinks, newLink];
       if (updatedLinks.length > 10) {
@@ -24,12 +24,15 @@ const RecentLinks = () => {
       sessionStorage.setItem("recentLinks", JSON.stringify(updatedLinks));
       return updatedLinks;
     });
-  };
+  };*/
 
   return (
     <div className="recent-links-container">
       <h2>Recent links</h2>
       <ol className="recent-links-ordered-list">
+        <li>First link</li>
+        <li>Second link</li>
+        <li>Third link</li>
         {links.map((link, index) => (
           <li key={index}>{link}</li>
         ))}

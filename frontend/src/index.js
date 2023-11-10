@@ -6,12 +6,10 @@ import MainPage from "./components/MainPage";
 import RegisterPage from "./auth/RegistrationPage";
 import "./sass/main.scss";
 
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import { BrowserRouter } from "react-router-dom/cjs/react-router-dom.min";
 
 const App = () => {
   return (
-    <GoogleOAuthProvider client_id={process.env.GOOGLE_CLIENT_ID}>
       <BrowserRouter>
         <Router>
           <Route exact path="/" component={MainPage} />
@@ -19,7 +17,6 @@ const App = () => {
           <Route exact path="/register" component={RegisterPage} />
         </Router>
       </BrowserRouter>
-    </GoogleOAuthProvider>
   );
 };
 

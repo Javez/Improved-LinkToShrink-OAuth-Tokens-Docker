@@ -12,7 +12,7 @@ const NavBar = () => {
         <li className="btn">Company</li>
         <li className="btn">Privacy</li>
       </div>
-      <p className="footer-copyright">© 2023 Danylov O.G. | All Rights Reserverd</p>
+      <p className="footer-copyright">© 2023-2024 Danylov O.G. | All Rights Reserverd</p>
     </div>
   );
 };
