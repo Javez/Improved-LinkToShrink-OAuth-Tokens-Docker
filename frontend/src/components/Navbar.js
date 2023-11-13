@@ -2,9 +2,16 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import userIcon from "../img/User-icon.png";
 const NavBar = (props) => {
-  
   const history = useHistory();
-  const username = props.username ? props.username : "Anonymous"; 
+
+  let userAvatar;
+  const username = props.username ? props.username : "Anonymous";
+  
+  if (props.picUrl) {
+    userAvatar = props.picUrl;
+  } else {
+    userAvatar = userIcon;
+  }
 
   function handleLogout() {
     sessionStorage.removeItem("token");
@@ -30,14 +37,20 @@ const NavBar = (props) => {
             <Link
               onClick={handleLogout}
               className="navbar-container-user-field_links__button"
-            >Log Out</Link>
+            >
+              Log Out
+            </Link>
           </div>
           <div className="navbar-container-user-field_info">
             <span>{username}</span>
           </div>
         </div>
         <div className="navbar-container-user-icon">
-          <img src={userIcon} alt="User Icon" className="right-img" />
+          <img
+            src={userAvatar}
+            alt="User Icon"
+            className="right-img"
+          />
         </div>
       </div>
     </div>

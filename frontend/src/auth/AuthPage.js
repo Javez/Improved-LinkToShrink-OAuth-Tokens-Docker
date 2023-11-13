@@ -87,8 +87,10 @@ const AuthPage = () => {
         ).then((res) => res.json())
           .then((data) => {
             if (data) {
+              console.log(data)
               sessionStorage.setItem("token", data.token);
               sessionStorage.setItem("username", data.username);
+              sessionStorage.setItem("picUrl", picture);
               history.push("/");
             } else {
               setError(data.message);

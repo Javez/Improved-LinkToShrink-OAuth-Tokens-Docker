@@ -19,11 +19,13 @@ const MainPage = () => {
     }
   }, [history]);
 
-
   return (
     <div className="main-container">
       <nav className="nav-block">
-        <NavBar username={sessionStorage.getItem("username")}/>
+        <NavBar
+          username={sessionStorage.getItem("username")}
+          picUrl={sessionStorage.getItem("picUrl")}
+        />
       </nav>
       <header className="header-container">
         <h1>Main page</h1>

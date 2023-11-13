@@ -30,11 +30,15 @@ const RecentLinks = () => {
     <div className="recent-links-container">
       <h2>Recent links</h2>
       <ol className="recent-links-ordered-list">
-        <li>First link</li>
-        <li>Second link</li>
-        <li>Third link</li>
-        {links.map((link, index) => (
-          <li key={index}>{link}</li>
+        <li>Link</li>
+        <li>Short Link</li>
+        {links.map((link, shortLink, index) => (
+          <li key={index}>
+            <br>
+              {link}
+              {shortLink}
+            </br>
+          </li>
         ))}
       </ol>
     </div>
