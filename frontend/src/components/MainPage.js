@@ -5,8 +5,8 @@ import Footer from "../components/Footer";
 import LinkForm from "./LinkForm";
 import RecentLinks from "./RecentLinks";
 
-const _host = process.env.BACKEND_HOST;
-const _port = process.env.BACKEND_PORT;
+const _host = process.env.REACT_APP_BACKEND_HOST;
+const _port = process.env.REACT_APP_BACKEND_PORT;
 
 const MainPage = () => {
   const history = useHistory();

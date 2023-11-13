@@ -2,42 +2,39 @@
 import React, { useState, useEffect } from "react";
 
 const RecentLinks = () => {
-  const [links, setLinks] = useState([]);
+   const [links, setLinks] = useState([]);
+   const [shortLinks, setShortLinks] = useState([]);
 
-  // Retrieve the links from sessionStorage when the component mounts
   useEffect(() => {
-    const storedLinks = JSON.parse(sessionStorage.getItem("recentLinks"));
+    const storedLinks = JSON.parse(sessionStorage.getItem("links"));
+    const storedShortLinks = JSON.parse(sessionStorage.getItem("shortLinks"));
+   
     if (storedLinks) {
       setLinks(storedLinks);
     }
-  }, []);
 
-  // Function to add a new link
-  /*const addLink = (newLink) => {
-    setLinks((prevLinks) => {
-      let updatedLinks = [...prevLinks, newLink];
-      if (updatedLinks.length > 10) {
-        // Remove the oldest link if the list has more than 10 links
-        updatedLinks = updatedLinks.slice(1);
-      }
-      // Update the links in sessionStorage
-      sessionStorage.setItem("recentLinks", JSON.stringify(updatedLinks));
-      return updatedLinks;
-    });
-  };*/
+    if (storedShortLinks) {
+      setShortLinks(storedShortLinks);
+    }
+  }, []);
 
   return (
     <div className="recent-links-container">
       <h2>Recent links</h2>
       <ol className="recent-links-ordered-list">
-        <li>Link</li>
-        <li>Short Link</li>
-        {links.map((link, shortLink, index) => (
+        {links.map((link, index) => (
           <li key={index}>
-            <br>
+            <a href={link} target="_blank" rel="noopener noreferrer">
               {link}
-              {shortLink}
-            </br>
+            </a>
+            <span> - Short Link: </span>
+            <a
+              href={shortLinks[index]}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {shortLinks[index]}
+            </a>
           </li>
         ))}
       </ol>

@@ -7,27 +7,23 @@ const LinkForm = (props) => {
   const [shortLink, setShortLink] = useState("");
   const inputRef = useRef();
 
-  const handleLinkChange = (e) => {
-    setLink(e.target.value);
-  };
-
-  const handleTakeShortLink = (e) => {
-    setShortLink(e.target.value);
-  };
-
-  const handleLinkSubmit = (e) => {
-    e.preventDefault();
-    fetch(`${props._host}:${props._port}/shrinkUrl`, {
+  const handleLinkSubmit = (event) => {
+    event.preventDefault();
+    const data = new URLSearchParams();
+    data.append("url", link);
+    console.log(data);
+    fetch(`http://${props._host}:${props._port}/shrinkUrl`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
-      body: JSON.stringify({ link }),
+      credentials: "include",
+      body: data,
     })
-      .then((res) => res.json())
-      .then((data) => {
-        handleTakeShortLink(data.shortLink);
+      .then((res) => res.text())
+      .then((text) => {
+       setShortLink(text);
       })
       .catch((error) => {
         console.error(error);
@@ -41,23 +37,23 @@ const LinkForm = (props) => {
   return (
     <div className="form-container form-container-link">
       <h1>Insert a link to reduce</h1>
-      <div className="form-container-input_group">
+      <form className="form-container-input_group" onSubmit={handleLinkSubmit}>
         <input
           id="link"
           type="text"
           value={link}
-          onChange={handleLinkChange}
+          onChange={(e) => setLink(e.target.value)}
           className="form-container-input_group__input"
           placeholder="https://example.com"
         />
-        <label htmlFor="link" for="name" className="form-container-input_group__label">
+        <label htmlFor="link" className="form-container-input_group__label">
           https://example.com
         </label>
-      </div>
-      <br />
-      <button className="btn" type="submit" onClick={handleLinkSubmit}>
-        Reduce My Link
-      </button>
+        <br />
+        <button className="btn" type="submit">
+          Reduce My Link
+        </button>
+      </form>
       <h1>Here you will see a short link</h1>
       <div className="form-container-info_group">
         <input

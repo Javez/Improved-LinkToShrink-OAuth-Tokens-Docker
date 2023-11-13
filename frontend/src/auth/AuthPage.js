@@ -91,6 +91,7 @@ const AuthPage = () => {
               sessionStorage.setItem("token", data.token);
               sessionStorage.setItem("username", data.username);
               sessionStorage.setItem("picUrl", picture);
+              console.log(sessionStorage.getItem("token"))
               history.push("/");
             } else {
               setError(data.message);

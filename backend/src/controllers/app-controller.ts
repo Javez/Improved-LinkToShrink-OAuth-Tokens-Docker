@@ -2,7 +2,6 @@ import linkServices from '../services/service';
 import { Request, Response } from 'express';
 import { error } from 'console';
 import dotenv from 'dotenv';
-import { type } from 'os';
 
 dotenv.config();
 const _host = process.env.FRONTEND_HOST;

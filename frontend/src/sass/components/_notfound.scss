@@ -1,0 +1,16 @@
+.not-found-block {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  :hover {
+    color: #ff3b3b;
+  }
+  &-title {
+    font-size: 2rem;
+  }
+  &-discription {
+    font-size: 2rem;
+  }
+}
