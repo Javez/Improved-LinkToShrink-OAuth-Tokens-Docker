@@ -5,6 +5,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import isGoogleTokenValid from "../api/googleTokenCheck";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { jwtDecode as jwt_decode } from "jwt-decode";
 
 const _host = process.env.REACT_APP_BACKEND_HOST;
 const _port = process.env.REACT_APP_BACKEND_PORT;
@@ -19,7 +20,6 @@ const AuthPage = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Check for the success message in the location state
     if (location.state && location.state.success) {
       setSuccess(location.state.success);
     }
@@ -27,22 +27,19 @@ const AuthPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Send login request to backend
+    try {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
-    try {
+    
       fetch(`http://${_host}:${_port}/login/user`, {
         method: "POST",
         body: formData,
-      })
-        .then((res) => res.json())
+      }).then((res) => res.json())
         .then((data) => {
           if (data) {
-            // Set authentication token in sessionStorage
             sessionStorage.setItem("token", data.token);
             sessionStorage.setItem("username", data.username);
-            // Redirect to main page
             history.push("/");
           } else {
             setError(data.message);
@@ -59,61 +56,47 @@ const AuthPage = () => {
     }
   };
 
-  const onSuccessGoogleLogin = async (event) => {
-    event.preventDefault();
-    ///TEST
-    console.log("res:", event);
-    console.log("res.tokenId:", event.tokenId);
-    console.log(
-      "res.getAuthResponse().id_token",
-      event.getAuthResponse().id_token
-    );
-    console.log("Login Success: currentUser:", event.profileObj);
-    console.log("token:", event.tokenObj);
-
+  const onSuccessGoogleLogin = async (res) => {
     try {
-      const id_token = event.tokenId;
-      const result = await isGoogleTokenValid(id_token);
+      const userObject = jwt_decode(res.credential);
+      const token = res.credential;
+      const { name, sub, picture, email } = userObject;
+      const doc = {
+        _id: sub,
+        _type: "user",
+        username: name,
+        image: picture,
+        email: email,
+        token: token,
+      };
+      
+      const result = await isGoogleTokenValid(doc.token);
       if (!result) {
         setError("Google token is not valid");
       } else {
-        console.log(
-          `Logged in successfully welcome ${event.profileObj.name} 😍. \n See console for full profile object.`
-        );
-        const decodedToken = JSON.parse(atob(id_token.split(".")[1]));
-        const newEmail = decodedToken.email;
-        const newName = decodedToken.name;
-        const newPicture = decodedToken.picture;
-        ///TEST
-        console.log(
-          "Test user data from token: ",
-          newName,
-          newEmail,
-          newPicture
-        );
         const formData = new FormData();
-        formData.append("username", newName);
-        formData.append("email", newEmail);
-        ///TEST
-        console.log("Test formData: ", formData);
-        const response = await fetch(
+        formData.append("username", doc.username);
+        formData.append("email", doc.email);
+        fetch(
           `http://${_host}:${_port}/auth/googleuser`,
           {
             method: "POST",
             credentials: "include",
             body: formData,
           }
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        } else {
-          response.ok
-            ? console.log("All data sended")
-            : console.log("some problem at sending data");
-          history.push("/", {
-            success: "Registration successful. Please log in.",
+        ).then((res) => res.json())
+          .then((data) => {
+            if (data) {
+              sessionStorage.setItem("token", data.token);
+              sessionStorage.setItem("username", data.username);
+              history.push("/");
+            } else {
+              setError(data.message);
+            }
+          })
+          .catch((error) => {
+            setError(error.message);
           });
-        }
       }
     } catch (error) {
       console.error(
@@ -123,13 +106,12 @@ const AuthPage = () => {
     }
   };
 
-  const onFailureGoogleLogin = async (response) => {
-    if (response.error === "idpiframe_initialization_failed") {
-      console.error("Google API initialization failed:", response.details);
-      setError(response.details);
+  const onFailureGoogleLogin = async (res) => {
+    if (res.error === "idpiframe_initialization_failed") {
+      console.error("Google API initialization failed:", res.details);
+      setError(res.details);
     } else {
-      // Handle other types of errors
-      console.error("Google Login failed:", response);
+      console.error("Google Login failed:", res);
     }
   };
 
