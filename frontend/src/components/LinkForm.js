@@ -23,7 +23,8 @@ const LinkForm = (props) => {
     })
       .then((res) => res.text())
       .then((text) => {
-       setShortLink(text);
+        setShortLink(text);
+        props.handleLinkFormData(link, text);
       })
       .catch((error) => {
         console.error(error);
@@ -65,7 +66,7 @@ const LinkForm = (props) => {
         />
         <FontAwesomeIcon
           icon={faCopy}
-          className="copy-icon"
+          className="fa-xl copy-icon"
           onClick={handleCopy}
         />
       </div>

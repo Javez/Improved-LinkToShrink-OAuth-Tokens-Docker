@@ -11,15 +11,27 @@
 
 .copy-icon {
   cursor: pointer;
-  transform-origin: center;
+  transform-origin: 50% 50%;
   :hover {
-    color: rgb(211, 92, 224);
-    transform: scale(1.5);
+    color: rgb(158, 92, 224);
     transition: 0.3s;
   }
   :active {
     color: rgb(120, 53, 253);
-    transform: scale(1);
+    transition: 0.2s;
+  }
+}
+
+.copy-icon-recent {
+  cursor: pointer;
+  transform-origin: center;
+  padding-left: 1rem;
+  :hover {
+    color: rgb(158, 92, 224);
+    transition: 0.3s;
+  }
+  :active {
+    color: rgb(120, 53, 253);
     transition: 0.2s;
   }
 }

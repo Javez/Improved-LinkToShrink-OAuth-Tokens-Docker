@@ -1,40 +1,51 @@
+import React from "react";
 
-import React, { useState, useEffect } from "react";
+const RecentLinks = ({ urlArray, shortUrlArray }) => {
 
-const RecentLinks = () => {
-   const [links, setLinks] = useState([]);
-   const [shortLinks, setShortLinks] = useState([]);
 
-  useEffect(() => {
-    const storedLinks = JSON.parse(sessionStorage.getItem("links"));
-    const storedShortLinks = JSON.parse(sessionStorage.getItem("shortLinks"));
-   
-    if (storedLinks) {
-      setLinks(storedLinks);
-    }
+  const handleCopy = (url) => {
+    navigator.clipboard.writeText(url);
+  };
 
-    if (storedShortLinks) {
-      setShortLinks(storedShortLinks);
-    }
-  }, []);
+  /*<FontAwesomeIcon
+    icon={faCopy}
+    className="fa-lg copy-icon-recent"
+    onClick={() => handleCopy(url)}
+  />*/
+  /*
+  <FontAwesomeIcon
+    icon={faCopy}
+    className="fa-lg copy-icon-recent"
+    onClick={() => handleCopy(shortUrlArray[index])}
+  />*/
 
   return (
     <div className="recent-links-container">
       <h2>Recent links</h2>
       <ol className="recent-links-ordered-list">
-        {links.map((link, index) => (
-          <li key={index}>
-            <a href={link} target="_blank" rel="noopener noreferrer">
-              {link}
-            </a>
-            <span> - Short Link: </span>
-            <a
-              href={shortLinks[index]}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {shortLinks[index]}
-            </a>
+        {urlArray.map((url, index) => (
+          <li className="recent-links-ordered-list__item" key={index}>
+            <div className="recent-links-ordered-list__item__group">
+              <div className="recent-links-ordered-list__item__group__span">
+                <span> Original Link </span>
+                <br />
+                <span> Short Link </span>
+              </div>
+              <div className="recent-links-ordered-list__item__group__urls">
+                <input value={url}></input>
+                <br />
+                <input value={shortUrlArray[index]}></input>
+              </div>
+            </div>
+
+            <div className="recent-links-ordered-list__item__copy">
+              <button
+                className="btn btn-copy"
+                onClick={() => handleCopy(shortUrlArray[index])}
+              >
+                Copy
+              </button>
+            </div>
           </li>
         ))}
       </ol>

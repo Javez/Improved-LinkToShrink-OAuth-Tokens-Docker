@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -10,6 +10,25 @@ const _port = process.env.REACT_APP_BACKEND_PORT;
 
 const MainPage = () => {
   const history = useHistory();
+
+  const [urlArray, setUrlArray] = useState([]);
+  const [shortUrlArray, setShortUrlArray] = useState([]);
+
+  const handleLinkFormData = (newUrlArray, newShortUrlArray) => {
+     setUrlArray((oldArray) => {
+       if (oldArray.length >= 10) {
+         oldArray.pop();
+       }
+       return [newUrlArray, ...oldArray];
+     });
+
+     setShortUrlArray((oldArray) => {
+       if (oldArray.length >= 10) {
+         oldArray.pop();
+       }
+       return [newShortUrlArray, ...oldArray];
+     });
+  };
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -32,10 +51,14 @@ const MainPage = () => {
       </header>
       <main className="main-block">
         <section className="section-form">
-          <LinkForm _host={_host} _port={_port} />
+          <LinkForm
+            _host={_host}
+            _port={_port}
+            handleLinkFormData={handleLinkFormData}
+          />
         </section>
         <section className="section-recent-links">
-          <RecentLinks />
+          <RecentLinks urlArray={urlArray} shortUrlArray={shortUrlArray} />
         </section>
       </main>
       <footer className="footer-blockr">

@@ -1,25 +1,73 @@
 .section-recent-links {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .recent-links-container {
-
-    background-color: rgb(255, 255, 255);
-    border-radius: 0 0 1rem 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1rem solid rgba(0, 0, 0, 0.249);
-    border-top: 0.5rem solid black;
-    width: 40%;
-    margin-bottom: 2rem;
+  background-color: rgb(255, 255, 255);
+  border-radius: 0 0 1rem 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1rem solid rgba(0, 0, 0, 0.249);
+  border-top: 0.5rem solid black;
+  width: 40%;
+  margin-bottom: 2rem;
 }
-
 .recent-links-ordered-list {
-    color: rgb(0, 0, 0);
-    list-style-type: none;
-    li { 
-        border-radius: 0.5rem;
-        background-color: rgba(0, 0, 0, 0.236);
-        margin-top: 1rem;
+  color: rgb(0, 0, 0);
+  list-style-type: none;
+  li {
+    padding-left: 1rem;
+    text-align: left;
+    border-radius: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.236);
+    margin-top: 1rem;
+  }
+  &__item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    &__group {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      padding: 0.5rem 0 0.5rem;
+      &__span {
+        margin-right: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        span {
+          font-size: 1.7rem;
+        }
+      }
+      &__urls {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        input {
+          margin: 0.1rem 0 0.1rem;
+          border-radius: 0.4rem;
+          border: solid 0.2rem #f5f5f500;
+          font-size: 1.7rem;
+          padding: 0.1rem;
+          background-color: rgba(255, 255, 255, 0);
+          color: #3434c4;
+          text-decoration: underline;
+          &:focus {
+            outline: 0;
+            border-image: linear-gradient(
+              to right,
+              rgb(211, 92, 224),
+              rgb(120, 53, 253)
+            );
+            border-image-slice: 1;
+          }
+        }
+      }
     }
+    &__copy {
+      padding: 0 2rem 0;
+      display: flex;
+    }
+  }
 }
