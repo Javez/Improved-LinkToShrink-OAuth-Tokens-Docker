@@ -14,20 +14,26 @@ const MainPage = () => {
   const [urlArray, setUrlArray] = useState([]);
   const [shortUrlArray, setShortUrlArray] = useState([]);
 
-  const handleLinkFormData = (newUrlArray, newShortUrlArray) => {
-     setUrlArray((oldArray) => {
-       if (oldArray.length >= 10) {
-         oldArray.pop();
-       }
-       return [newUrlArray, ...oldArray];
-     });
+  const handleLinkFormData = (newUrl, newShortUrl) => {
+    setUrlArray((oldArray) => {
+      if (!oldArray.includes(newUrl)) {
+        if (oldArray.length >= 10) {
+          oldArray.pop();
+        }
+        return [newUrl, ...oldArray];
+      }
+      return oldArray;
+    });
 
-     setShortUrlArray((oldArray) => {
-       if (oldArray.length >= 10) {
-         oldArray.pop();
-       }
-       return [newShortUrlArray, ...oldArray];
-     });
+    setShortUrlArray((oldArray) => {
+      if (!oldArray.includes(newShortUrl)) {
+        if (oldArray.length >= 10) {
+          oldArray.pop();
+        }
+        return [newShortUrl, ...oldArray];
+      }
+      return oldArray;
+    });
   };
 
   useEffect(() => {
@@ -55,6 +61,7 @@ const MainPage = () => {
             _host={_host}
             _port={_port}
             handleLinkFormData={handleLinkFormData}
+            history={history}
           />
         </section>
         <section className="section-recent-links">

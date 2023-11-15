@@ -61,16 +61,17 @@ export class linkService {
       if (linkRedis) {
         console.log('REDIS RETURNED DATA');
         return linkRedis;
+      } else {
+        const link = await Link.findOne({
+          where: { url: url }
+        });
+        if (!link) {
+          console.log('SEQUELIZE NOT FOUND DATA');
+          return false;
+        }
+        console.log('SEQUELIZE RETURNED DATA');
+        return link.shortUrl;
       }
-      const link = await Link.findOne({
-        where: { url: url }
-      });
-      if (!link) {
-        console.log('SEQUELIZE NOT FOUND DATA');
-        return 'link not found';
-      }
-      console.log('SEQUELIZE RETURNED DATA');
-      return link.shortUrl;
     } catch (error) {
       console.log(error);
     }

@@ -13,7 +13,12 @@ class appController {
         url: req.body.url,
         shortUrl: undefined
       };
-      res.send(await linkServices.shrinkUrl(data));
+      const result = await linkServices.getLinkByUrl(data.url);
+      if (result) {
+        res.send(result);
+      } else {
+        res.send(await linkServices.shrinkUrl(data));
+      }
     } catch {
       console.log(error);
     }
@@ -81,10 +86,22 @@ class appController {
         email: req.body.email,
         password: req.body.password
       };
-      const result = await linkServices.addUser(data);
-      if(result === true) {res.sendStatus(200);} else {res.sendStatus(500);}
+      const userCheck = await linkServices.checkUser(data);
+      if (!userCheck) {
+        const result = await linkServices.addUser(data);
+        if (result === true) {
+          res.sendStatus(200);
+        } else {
+          res.status(500).send({ error: "Some error during user's adding" });
+        }
+      } else {
+        res.status(500).send({ error: 'User already exists' });
+      }
     } catch {
       console.log(error);
+      res
+        .status(500)
+        .send({ error: 'An error occurred while trying to add the user.' });
     }
   };
 

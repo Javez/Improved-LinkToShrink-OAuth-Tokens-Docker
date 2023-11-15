@@ -7,6 +7,7 @@ import isGoogleTokenValid from "../api/googleTokenCheck";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { jwtDecode as jwt_decode } from "jwt-decode";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 
 const _google_cliend_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const _host = process.env.REACT_APP_BACKEND_HOST;
@@ -32,7 +33,9 @@ const RegisterPage = ({ ClientId }) => {
         body: formData,
       });
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json();
+        setError(errorData.error);
+         console.error("Registration error:", response.status, response.statusText);
       } else {
         response.ok
           ? console.log("All data sended")
@@ -129,8 +132,12 @@ const RegisterPage = ({ ClientId }) => {
                 className="form-container-input_group__input"
                 placeholder="https://example.com"
                 type="text"
-                value={username}
                 id="username"
+                name="username"
+                pattern="^[A-Z][a-zA-Z0-9]{3,}"
+                required
+                title="Username must be at least 4 characters long and contain only letters, numbers"
+                value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
               <label
@@ -139,14 +146,22 @@ const RegisterPage = ({ ClientId }) => {
               >
                 Username
               </label>
+              <FontAwesomeIcon
+                className="exclamation-icon"
+                icon={faExclamationTriangle}
+              />
             </div>
             <div className="form-container-input_group">
               <input
-                className="form-container-input_group__input"
+                className="form-container-input_group__input authentication"
                 placeholder="https://example.com"
                 type="email"
-                value={email}
                 id="email"
+                name="email"
+                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                required
+                title="Please enter a valid email address"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <label
@@ -155,22 +170,34 @@ const RegisterPage = ({ ClientId }) => {
               >
                 Email
               </label>
+              <FontAwesomeIcon
+                className="exclamation-icon"
+                icon={faExclamationTriangle}
+              />
             </div>
             <div className="form-container-input_group">
               <input
-                className="form-container-input_group__input"
+                className="form-container-input_group__input authentication"
                 placeholder="https://example.com"
                 type="password"
-                value={password}
                 id="password"
+                name="password"
+                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
+                required
+                title="Password must be at least 8 characters long and contain at least one digit, one lower case letter, and one upper case letter"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <label
                 htmlFor="password"
-                className="form-container-input_group__label"
+                className="form-container-input_group__label authentication"
               >
                 Password
               </label>
+              <FontAwesomeIcon
+                className="exclamation-icon"
+                icon={faExclamationTriangle}
+              />
             </div>
             <button type="submit" className="btn btn-slim">
               Confirm

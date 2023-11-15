@@ -142,13 +142,16 @@ const AuthPage = () => {
             <h3>Please enter your data</h3>
             <div className="form-container-input_group">
               <input
-                className="form-container-input_group__input"
+                className="form-container-input_group__input authentication"
                 placeholder="https://example.com"
                 type="email"
-                value={email}
                 id="email"
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
+                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                 required
+                title="Please enter a valid email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <label
                 htmlFor="email"
@@ -160,13 +163,16 @@ const AuthPage = () => {
             </div>
             <div className="form-container-input_group">
               <input
-                className="form-container-input_group__input"
+                className="form-container-input_group__input authentication"
                 placeholder="https://example.com"
                 type="password"
-                value={password}
                 id="password"
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
                 required
+                title="Password must be at least 8 characters long and contain at least one digit, one lower case letter, and one upper case letter"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <label
                 htmlFor="password"

@@ -13,7 +13,7 @@
   cursor: pointer;
   transform-origin: 50% 50%;
   :hover {
-    color: rgb(158, 92, 224);
+    color: #ff3b3b;
     transition: 0.3s;
   }
   :active {
@@ -34,4 +34,11 @@
     color: rgb(120, 53, 253);
     transition: 0.2s;
   }
+}
+
+.exclamation-icon {
+  color: red;
+  position: absolute;
+  top: 2rem;
+  visibility: hidden;
 }

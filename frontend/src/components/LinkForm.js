@@ -21,7 +21,14 @@ const LinkForm = (props) => {
       credentials: "include",
       body: data,
     })
-      .then((res) => res.text())
+      .then((res) => {
+        if (res.status === 401) {
+          sessionStorage.removeItem("token");
+          props.history.push("/login");
+          throw new Error("Unauthorized");
+        }
+        return res.text();
+      })
       .then((text) => {
         setShortLink(text);
         props.handleLinkFormData(link, text);
@@ -65,8 +72,9 @@ const LinkForm = (props) => {
           placeholder="https://example.com"
         />
         <FontAwesomeIcon
+          title="Copy link"
           icon={faCopy}
-          className="fa-xl copy-icon"
+          className="fa-regular fa-lg copy-icon"
           onClick={handleCopy}
         />
       </div>

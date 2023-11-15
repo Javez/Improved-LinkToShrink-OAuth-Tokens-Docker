@@ -2,22 +2,9 @@ import React from "react";
 
 const RecentLinks = ({ urlArray, shortUrlArray }) => {
 
-
   const handleCopy = (url) => {
     navigator.clipboard.writeText(url);
   };
-
-  /*<FontAwesomeIcon
-    icon={faCopy}
-    className="fa-lg copy-icon-recent"
-    onClick={() => handleCopy(url)}
-  />*/
-  /*
-  <FontAwesomeIcon
-    icon={faCopy}
-    className="fa-lg copy-icon-recent"
-    onClick={() => handleCopy(shortUrlArray[index])}
-  />*/
 
   return (
     <div className="recent-links-container">

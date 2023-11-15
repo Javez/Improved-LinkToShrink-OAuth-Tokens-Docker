@@ -6,10 +6,11 @@
   height: 30rem;
   width: 40%;
   background-color: rgb(255, 255, 255);
-   border-radius: 1rem 1rem 1rem 1rem;
+  border-radius: 1rem 1rem 1rem 1rem;
   &-info_group {
     position: relative;
     width: 50%;
+
     :focus {
       outline: 0;
       border-image: linear-gradient(
@@ -48,7 +49,15 @@
       margin-top: 1rem;
       width: 100%;
     }
-   
+    svg {
+      position: absolute;
+      margin-top: 1rem;
+      padding: 0.4rem;
+      border-radius: 0.5rem;
+      color: rgb(130, 130, 130);
+      right: 0;
+      background-color: white;
+    }
   }
   &-input_group {
     position: relative;
@@ -72,11 +81,6 @@
       color: rgba(50, 50, 50, 0.392);
       font-weight: 700;
     }
-
-    :required,
-    :invalid {
-      box-shadow: none;
-    }
     ::placeholder {
       color: transparent;
     }
@@ -88,13 +92,13 @@
       transition: border-color 0.2s;
       border-bottom: 0.2rem solid gray;
       font-size: 2rem;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
       width: 100%;
     }
     &__label {
-      margin-top: 1rem;
+      margin-top: 1.5rem;
       position: absolute;
-      top: -0.5rem;
+      top: 0rem;
       display: block;
       font-size: 2rem;
       transition: 0.2s;
@@ -111,10 +115,39 @@
 
 .form-auth-container-btn {
   margin-top: 1rem;
-   display: flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 5rem;
   width: 40%;
+}
+
+.authentication {
+  &:valid {
+        outline: 0;
+        border-image: linear-gradient(
+          to right,
+          rgb(28, 106, 34),
+          rgb(53, 253, 173)
+        );
+        border-image-slice: 1;
+      }
+      &:invalid:not(:placeholder-shown) {
+        border-color: #ff3b3b;
+        outline: 0;
+        border-image: linear-gradient(
+          to right,
+          rgb(164, 29, 2),
+          #ff3b3b
+        );
+        border-image-slice: 1;
+      }
+      &:invalid:not(:placeholder-shown) ~ .exclamation-icon {
+        visibility: visible;
+      }
+
+      &:valid ~ .exclamation-icon {
+        visibility: hidden;
+      }
 }
