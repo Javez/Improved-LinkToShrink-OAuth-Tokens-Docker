@@ -1,17 +1,19 @@
 FROM node:18.16.0
-
 WORKDIR /backend
+ENV NODE_ENV=production
+COPY package.json ./
+COPY tsconfig.json ./
+COPY src ./src
+RUN ls -a
+RUN npm install
 
-ADD package.json /tmp
-
-RUN cd /tmp && npm install
-
-RUN mv /tmp/node_modules /backend
-
-ENV NODE_ENV=development
-
-COPY . /backend
-
+## this is stage two , where the app actually runs
+FROM node:18.16.0
+WORKDIR /backend
+ENV NODE_ENV=production
+COPY package.json ./
+RUN npm install --only=production
+COPY dist ./
+RUN npm install pm2 -g
 EXPOSE 8080
-
-CMD ["npm", "run", "start"]
+CMD ["pm2-runtime","server.js"]

@@ -13,6 +13,6 @@
     "typeRoots": ["./node_modules/@types/"],
     "types": ["jest", "node"]
   },
-  "include": ["tests"],
-  "exclude": ["node_modules"]
+  "include": ["src"],
+  "exclude": ["node_modules", "tests"]
 }

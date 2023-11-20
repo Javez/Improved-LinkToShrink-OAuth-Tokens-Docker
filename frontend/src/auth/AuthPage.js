@@ -77,6 +77,7 @@ const AuthPage = () => {
         const formData = new FormData();
         formData.append("username", doc.username);
         formData.append("email", doc.email);
+        /*http://${_host}:${_port}/auth/googleuser */
         fetch(
           `http://${_host}:${_port}/auth/googleuser`,
           {

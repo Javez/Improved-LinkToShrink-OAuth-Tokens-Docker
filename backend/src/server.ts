@@ -2,8 +2,11 @@ import express from 'express';
 import router from './routes/app-routes';
 import { SequelizeDB } from './db/sequelize.db';
 import dotenv from 'dotenv';
+import { cp } from 'fs';
 
 dotenv.config();
+const _frontend_port = process.env.FRONTEND_PORT;
+const _frontend_host = process.env.FRONTEND_HOST;
 
 const db = new SequelizeDB();
 const cors = require('cors');
@@ -13,7 +16,12 @@ const upload = multer();
 const app = express();
 
 // TODO: Change origin to actual origin of frontend in time of production build
-app.use(cors({ origin: true, credentials: true }));
+app.use(
+  cors({
+    origin: `http://${_frontend_host}:${_frontend_port}`,
+    credentials: true
+  })
+);
 // for parsing application/json
 app.use(express.json());
 // for parsing application/x-www-form-urlencoded
@@ -21,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 // for parsing multipart/form-data
 app.use(upload.none());
 app.use(express.static(path.join(__dirname, 'public')));
- 
+
 app.use('/', router);
 
 db.openConnection().then(() => {
