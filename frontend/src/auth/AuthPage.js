@@ -28,14 +28,16 @@ const AuthPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     try {
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-    
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+
       fetch(`http://${_host}:${_port}/login/user`, {
         method: "POST",
         body: formData,
-      }).then((res) => res.json())
+        credentials: "include",
+      })
+        .then((res) => res.json())
         .then((data) => {
           if (data) {
             sessionStorage.setItem("token", data.token);
@@ -69,7 +71,7 @@ const AuthPage = () => {
         email: email,
         token: token,
       };
-      
+
       const result = await isGoogleTokenValid(doc.token);
       if (!result) {
         setError("Google token is not valid");
@@ -77,22 +79,20 @@ const AuthPage = () => {
         const formData = new FormData();
         formData.append("username", doc.username);
         formData.append("email", doc.email);
-        /*http://${_host}:${_port}/auth/googleuser */
-        fetch(
-          `http://${_host}:${_port}/auth/googleuser`,
-          {
-            method: "POST",
-            credentials: "include",
-            body: formData,
-          }
-        ).then((res) => res.json())
+
+        fetch(`http://${_host}:${_port}/auth/googleuser`, {
+          method: "POST",
+          credentials: "include",
+          body: formData,
+        })
+          .then((res) => res.json())
           .then((data) => {
             if (data) {
-              console.log(data)
+              console.log(data);
               sessionStorage.setItem("token", data.token);
               sessionStorage.setItem("username", data.username);
               sessionStorage.setItem("picUrl", picture);
-              console.log(sessionStorage.getItem("token"))
+              console.log(sessionStorage.getItem("token"));
               history.push("/");
             } else {
               setError(data.message);

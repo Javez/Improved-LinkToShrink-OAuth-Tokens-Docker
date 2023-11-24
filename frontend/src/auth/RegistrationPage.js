@@ -35,7 +35,11 @@ const RegisterPage = ({ ClientId }) => {
       if (!response.ok) {
         const errorData = await response.json();
         setError(errorData.error);
-         console.error("Registration error:", response.status, response.statusText);
+        console.error(
+          "Registration error:",
+          response.status,
+          response.statusText
+        );
       } else {
         response.ok
           ? console.log("All data sended")
@@ -129,12 +133,12 @@ const RegisterPage = ({ ClientId }) => {
             <h3>Please enter your data</h3>
             <div className="form-container-input_group">
               <input
-                className="form-container-input_group__input"
+                className="form-container-input_group__input authentication"
                 placeholder="https://example.com"
-                type="text"
+                type="username"
                 id="username"
                 name="username"
-                pattern="^[A-Z][a-zA-Z0-9]{3,}"
+                pattern="^[a-zA-Z][a-zA-Z0-9]{3,}$"
                 required
                 title="Username must be at least 4 characters long and contain only letters, numbers"
                 value={username}
@@ -158,7 +162,7 @@ const RegisterPage = ({ ClientId }) => {
                 type="email"
                 id="email"
                 name="email"
-                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                pattern="^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$"
                 required
                 title="Please enter a valid email address"
                 value={email}

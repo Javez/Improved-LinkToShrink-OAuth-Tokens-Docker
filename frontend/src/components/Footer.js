@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import logo from '../img/Logo.png';
 const NavBar = () => {
   return (
     <div className="footer-container">
       <Link to="/" className="footer-logo">
-        <img src="logo.png" alt="Logo" />
+        <img src={logo} alt="Logo" />
         <a href="/">Link to Shrink</a>
       </Link>
       <div className="footer-links">

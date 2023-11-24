@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import userIcon from "../img/User-icon.png";
+import logo from '../img/Logo.png';
 const NavBar = (props) => {
   const history = useHistory();
 
@@ -23,7 +24,7 @@ const NavBar = (props) => {
   return (
     <div className="navbar-container">
       <Link to="/" className="navbar-container-logo">
-        <img src="logo.png" alt="Logo" className="left-img" />
+        <img src={logo} alt="Logo" className="left-img" />
         <a href="/">Link to Shrink</a>
       </Link>
       <ul className="navbar-container-links">
