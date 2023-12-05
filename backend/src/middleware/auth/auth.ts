@@ -1,7 +1,10 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
+import dotenv from 'dotenv';
 
-const JWT_SECRET = 'mysecretkey';
+dotenv.config();
+
+const JWT_SECRET = process.env.JWT_SECRET_KEY || '';
 
 export const createToken = (email: string, password: string): string => {
   const token = jwt.sign({ email, password }, JWT_SECRET, { expiresIn: '1h' });

@@ -2,10 +2,8 @@ import shrinkLink from '../api/shrink-api';
 import redis from '../db/redis.db';
 import dotenv from 'dotenv';
 import { createToken } from '../middleware/auth/auth';
-import { OAuth2Client } from 'google-auth-library';
 import { User, GoogleUser, Link } from '../db/models/models';
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 dotenv.config();
 export class linkService {
   async shrinkUrl(data: any) {

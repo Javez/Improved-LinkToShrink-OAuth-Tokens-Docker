@@ -29,7 +29,7 @@ const NavBar = (props) => {
       </Link>
       <ul className="navbar-container-links">
         <li className="btn">Support</li>
-        <li className="btn">Other Products</li>
+        <li className="btn">Check ChatGPT</li>
         <li className="btn">About</li>
       </ul>
       <div className="navbar-container-user">

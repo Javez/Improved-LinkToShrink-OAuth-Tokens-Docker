@@ -13,12 +13,10 @@ const multer = require('multer');
 const upload = multer();
 const app = express();
 
-// TODO: Change origin to actual origin of frontend in time of production build
-
 const corsOptions = {
-  origin: `http://${_frontend_host}:${_frontend_port}`, // replace with your frontend's origin
+  origin: `http://${_frontend_host}:${_frontend_port}`,
   credentials: true,
-  methods: ['GET', 'POST'], // replace with the methods your application uses
+  methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 

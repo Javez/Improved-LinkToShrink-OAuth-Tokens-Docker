@@ -21,7 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --coverage ./tests",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -49,9 +49,22 @@
     "os": false
   },
   "devDependencies": {
-    "dotenv-webpack": "^8.0.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0"
+    "@testing-library/user-event": "^13.5.0",
+    "babel-jest": "^29.7.0",
+    "dotenv-webpack": "^8.0.1",
+    "jest": "^27.5.1",
+    "nock": "^13.4.0"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setupTests.js"
+    ],
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+      "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/tests/__mocks__/fileMock.js"
+    }
   }
 }

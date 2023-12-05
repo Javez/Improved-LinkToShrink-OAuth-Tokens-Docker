@@ -54,4 +54,3 @@ volumes:
   linktoshrink-volume:
 networks:
   linktoshrink-network:
-  
