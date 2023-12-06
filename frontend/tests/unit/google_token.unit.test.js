@@ -1,39 +1,34 @@
-import isGoogleTokenValid from "../../src/api/googleTokenCheck"; 
+import isGoogleTokenValid from "../../src/api/googleTokenCheck";
+import fetch from "node-fetch";
 
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve({}),
-  })
-);
+jest.mock("node-fetch");
 
 describe("isGoogleTokenValid", () => {
-  beforeEach(() => {
-    fetch.mockClear();
-  });
+  it("returns true when the token is valid", async () => {
+    const mockResponse = {
+      json: jest.fn().mockResolvedValue({}),
+    };
+    fetch.mockResolvedValue(mockResponse);
 
-  it("returns true for a valid token", async () => {
-    const result = await isGoogleTokenValid("test-token");
+    const result = await isGoogleTokenValid("valid_token");
+
     expect(result).toBe(true);
-    expect(fetch).toHaveBeenCalledTimes(1);
-  });
-
-  it("returns false for an invalid token", async () => {
-    fetch.mockImplementationOnce(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({ error_description: "Invalid Value" }),
-      })
+    expect(fetch).toHaveBeenCalledWith(
+      "https://oauth2.googleapis.com/tokeninfo?id_token=valid_token"
     );
-
-    const result = await isGoogleTokenValid("test-token");
-    expect(result).toBe(false);
-    expect(fetch).toHaveBeenCalledTimes(1);
   });
 
-  it("returns false when an error occurs", async () => {
-    fetch.mockImplementationOnce(() => Promise.reject("API is down"));
+  it("returns false when the token is invalid", async () => {
+    const mockResponse = {
+      json: jest.fn().mockResolvedValue({ error_description: "Invalid Value" }),
+    };
+    fetch.mockResolvedValue(mockResponse);
 
-    const result = await isGoogleTokenValid("test-token");
+    const result = await isGoogleTokenValid("invalid_token");
+
     expect(result).toBe(false);
-    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith(
+      "https://oauth2.googleapis.com/tokeninfo?id_token=invalid_token"
+    );
   });
 });

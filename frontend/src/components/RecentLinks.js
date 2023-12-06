@@ -19,9 +19,9 @@ const RecentLinks = ({ urlArray, shortUrlArray }) => {
                 <span> Short Link </span>
               </div>
               <div className="recent-links-ordered-list__item__group__urls">
-                <input value={url}></input>
+                <input value={url} readOnly></input>
                 <br />
-                <input value={shortUrlArray[index]}></input>
+                <input value={shortUrlArray[index]} readOnly></input>
               </div>
             </div>
 

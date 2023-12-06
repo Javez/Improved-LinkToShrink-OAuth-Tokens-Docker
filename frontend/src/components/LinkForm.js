@@ -69,7 +69,8 @@ const LinkForm = (props) => {
           type="text"
           value={shortLink}
           className="form-container-info_group__input"
-          placeholder="https://example.com"
+          placeholder="short link"
+          readOnly
         />
         <FontAwesomeIcon
           title="Copy link"

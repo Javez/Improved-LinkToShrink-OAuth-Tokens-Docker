@@ -165,7 +165,7 @@ const AuthPage = () => {
             <div className="form-container-input_group">
               <input
                 className="form-container-input_group__input authentication"
-                placeholder="https://example.com"
+                placeholder="password"
                 type="password"
                 id="password"
                 name="password"
@@ -201,9 +201,10 @@ const AuthPage = () => {
                     className="btn btn-slim"
                     onClick={renderProps.onClick}
                     disabled={renderProps.disabled}
+                    name="sign in with google"
+                    value={"Sign in with google"}
                   >
                     <FontAwesomeIcon icon={faGoogle} className="google-icon" />
-                    Sign in with google
                   </button>
                 )}
                 onSuccess={onSuccessGoogleLogin}

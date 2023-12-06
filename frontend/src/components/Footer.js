@@ -6,7 +6,7 @@ const NavBar = () => {
     <div className="footer-container">
       <Link to="/" className="footer-logo">
         <img src={logo} alt="Logo" />
-        <a href="/">Link to Shrink</a>
+        <p>Link to Shrink</p>
       </Link>
       <div className="footer-links">
         <li className="btn">Company</li>

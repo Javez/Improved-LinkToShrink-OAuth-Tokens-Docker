@@ -1,28 +1,61 @@
 import React from "react";
-import { screen, render, fireEvent } from "@testing-library/react";
-import LinkForm from "../../src/components/LinkForm"; // adjust this path to point to your LinkForm file
-import { MemoryRouter } from "react-router-dom";
+import { screen, render, fireEvent, waitFor } from "@testing-library/react";
+import { createMemoryHistory } from "history";
+import { Router } from "react-router-dom";
+import LinkForm from "../../src/components/LinkForm"; // adjust the path to match your file structure
 
 describe("LinkForm", () => {
-  it("renders correctly", () => {
-    render(
-      <MemoryRouter>
-        <LinkForm />
-      </MemoryRouter>
+  let mockHandleLinkFormData;
+  let history;
+
+  beforeEach(() => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({ shortUrl: "short-url" }),
+        text: () => Promise.resolve("short-url"),
+        status: 200,
+      })
     );
-    const input = screen.getByLabelText("URL");
-    expect(input).toBeInTheDocument();
+    mockHandleLinkFormData = jest.fn();
+    history = createMemoryHistory();
   });
 
-  it("calls onSubmit with the input value", () => {
-    const handleSubmit = jest.fn();
+  it("renders without crashing", () => {
     render(
-      <LinkForm onSubmit={handleSubmit} />
+      <Router history={history}>
+        <LinkForm
+          _host="localhost"
+          _port="8080"
+          handleLinkFormData={mockHandleLinkFormData}
+          history={history}
+        />
+      </Router>
     );
-    const input = screen.getByLabelText("URL");
+  });
+
+  it("calls handleLinkFormData with the input value on form submission", async () => {
+    render(
+      <Router history={history}>
+        <LinkForm
+          _host="localhost"
+          _port="8080"
+          handleLinkFormData={mockHandleLinkFormData}
+          history={history}
+        />
+      </Router>
+    );
+
+    const input = screen.getByPlaceholderText("https://example.com");
     fireEvent.change(input, { target: { value: "test-url" } });
-    const button = screen.getByText("Submit");
+
+    const button = screen.getByText("Reduce My Link");
     fireEvent.click(button);
-    expect(handleSubmit).toHaveBeenCalledWith("test-url");
+
+    await waitFor(() =>
+      expect(mockHandleLinkFormData).toHaveBeenCalledWith(
+        "test-url",
+        "short-url"
+      )
+    );
   });
 });

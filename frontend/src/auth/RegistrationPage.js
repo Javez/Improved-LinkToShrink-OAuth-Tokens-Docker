@@ -13,7 +13,7 @@ const _google_cliend_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const _host = process.env.REACT_APP_BACKEND_HOST;
 const _port = process.env.REACT_APP_BACKEND_PORT;
 
-const RegisterPage = ({ ClientId }) => {
+const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

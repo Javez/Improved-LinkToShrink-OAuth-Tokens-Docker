@@ -25,7 +25,7 @@ const NavBar = (props) => {
     <div className="navbar-container">
       <Link to="/" className="navbar-container-logo">
         <img src={logo} alt="Logo" className="left-img" />
-        <a href="/">Link to Shrink</a>
+        <p>Link to Shrink</p>
       </Link>
       <ul className="navbar-container-links">
         <li className="btn">Support</li>
@@ -36,10 +36,11 @@ const NavBar = (props) => {
         <div className="navbar-container-user-field">
           <div className="navbar-container-user-field_links">
             <Link
+              to="#"
               onClick={handleLogout}
               className="navbar-container-user-field_links__button"
             >
-              Log Out
+              <p>Log Out</p>
             </Link>
           </div>
           <div className="navbar-container-user-field_info">
@@ -47,11 +48,7 @@ const NavBar = (props) => {
           </div>
         </div>
         <div className="navbar-container-user-icon">
-          <img
-            src={userAvatar}
-            alt="User Icon"
-            className="right-img"
-          />
+          <img src={userAvatar} alt="User Icon" className="right-img" />
         </div>
       </div>
     </div>

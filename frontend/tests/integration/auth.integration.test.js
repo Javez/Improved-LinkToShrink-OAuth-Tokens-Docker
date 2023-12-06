@@ -1,31 +1,41 @@
-import nock from "nock";
-import { performAuth } from "../../src/auth/AuthPage";
+// AuthPage.integration.test.js
+import { render, fireEvent, waitFor, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+import AuthPage from "../../src/auth/AuthPage";
+import fetch from "node-fetch";
 
-describe("fetch requests", () => {
-  it("responds correctly to /login/user", async () => {
-    nock("http://localhost:8080").post("/login/user").reply(200, {
-      token: "test-token",
-      username: "test-user",
-    });
-    const response = await fetch("http://localhost:8080/login/user", {
-      method: "POST",
-      body: new FormData(),
-      credentials: "include",
-    });
-    const data = await response.json();
-    expect(data.token).toBe("test-token");
-    expect(data.username).toBe("test-user");
-  });
+jest.mock("node-fetch");
+describe("AuthPage Integration", () => {
+ test("submits the form and navigates to the home page", async () => {
+   // Spy on the fetch API
+   const mockFetch = jest.spyOn(global, "fetch");
+   mockFetch.mockImplementation(() =>
+     Promise.resolve({
+       json: () => Promise.resolve({ token: "123", username: "test" }),
+     })
+   );
 
-  it("responds correctly to /auth/googleuser", async () => {
-    nock("http://localhost:8080").post("/auth/googleuser").reply(200, {
-      token: "test-token",
-      username: "test-user",
-      picUrl: "test-picUrl",
-    });
-    const result = await performAuth("test-token", "test-user", "test-picUrl");
-    expect(result.token).toBe("test-token");
-    expect(result.username).toBe("test-user");
-    expect(result.picUrl).toBe("test-picUrl");
-  });
+   render(
+     <MemoryRouter>
+       <AuthPage />
+     </MemoryRouter>
+   );
+
+   // Simulate form submission
+   fireEvent.change(screen.getByPlaceholderText("https://example.com"), {
+     target: { value: "test@example.com" },
+   });
+   fireEvent.click(screen.getByText("Confirm"));
+
+   // Wait for the fetch call
+   await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
+
+   // Check the result
+   expect(screen.getByText("Home")).toBeInTheDocument();
+
+   // Clean up the fetch mock
+   mockFetch.mockRestore();
+ });
+
+  // ... other integration tests
 });

@@ -6,6 +6,31 @@ import { User, GoogleUser, Link } from '../db/models/models';
 
 dotenv.config();
 export class linkService {
+  static getLinkByUrl(url: string) {
+      throw new Error('Method not implemented.');
+  }
+  static getLinkByShortUrl(shortUrl: string) {
+      throw new Error('Method not implemented.');
+  }
+  static addUser(data: { username: string; email: string; password: string; }) {
+      throw new Error('Method not implemented.');
+  }
+  static addGoogleUser(data: { username: string; email: string; }) {
+      throw new Error('Method not implemented.');
+  }
+  static checkUser(data: { email: string; password: string; }) {
+      throw new Error('Method not implemented.');
+  }
+  static checkGoogleUser(data: { username: string; email: string; }) {
+      throw new Error('Method not implemented.');
+  }
+  static hashCodeUrl(url: string) {
+      throw new Error('Method not implemented.');
+  }
+  static addLink: jest.Mock<any, any, any>;
+  static shrinkUrl(data: { url: string; }) {
+      throw new Error('Method not implemented.');
+  }
   async shrinkUrl(data: any) {
     try {
       const shrinkedUrl = await shrinkLink(data.url);

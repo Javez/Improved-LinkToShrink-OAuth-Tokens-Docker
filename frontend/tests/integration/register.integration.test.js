@@ -1,24 +1,54 @@
-import nock from "nock";
-import { registerUser } from "../../src/auth/RegistrationPage"; 
+// RegistrationPage.integration.test.js
+import { render, fireEvent, waitFor, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+import RegistrationPage from "../../src/auth/RegistrationPage";
+import fetch from "node-fetch";
 
-describe("RegistrationPage fetch requests", () => {
-  it("responds correctly to /auth/googleuser", async () => {
-    nock("http://localhost:8080").post("/auth/googleuser").reply(200, {
-      token: "test-token",
-      username: "test-user",
-      picUrl: "test-picUrl",
+jest.mock("node-fetch");
+
+describe("RegistrationPage Integration", () => {
+  test("submits the form and navigates to the login page", async () => {
+    // Spy on the fetch API
+    const mockFetch = jest.spyOn(global, "fetch");
+    mockFetch.mockImplementation(() =>
+      Promise.resolve({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            success: "Registration successful. Please log in.",
+          }),
+      })
+    );
+
+    render(
+      <MemoryRouter>
+        <RegistrationPage />
+      </MemoryRouter>
+    );
+
+    // Simulate form submission
+    fireEvent.change(screen.getAllByPlaceholderText("https://example.com")[0], {
+      target: { value: "testUsername" },
     });
-    const result = await registerUser("test-token", "test-user", "test-picUrl"); // replace with your actual function
-    expect(result.token).toBe("test-token");
-    expect(result.username).toBe("test-user");
-    expect(result.picUrl).toBe("test-picUrl");
+    fireEvent.change(screen.getAllByPlaceholderText("https://example.com")[1], {
+      target: { value: "test@example.com" },
+    });
+    fireEvent.change(screen.getAllByPlaceholderText("https://example.com")[2], {
+      target: { value: "TestPassword123" },
+    });
+    fireEvent.click(screen.getByText("Confirm"));
+
+    // Wait for the fetch call
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
+
+    // Check the result
+    expect(
+      screen.getByText("Already have account? Sing In")
+    ).toBeInTheDocument();
+
+    // Clean up the fetch mock
+    mockFetch.mockRestore();
   });
 
-  it("responds correctly to /register/user", async () => {
-    nock("http://localhost:8080").post("/register/user").reply(200, {
-      message: "User registered successfully",
-    });
-    const result = await registerUser("test-username", "test-password"); // replace with your actual function
-    expect(result.message).toBe("User registered successfully");
-  });
+  // ... other integration tests
 });
